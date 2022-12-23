@@ -23,7 +23,7 @@ In the end, I settled on using [Zola](https://www.getzola.org) for my site.
 
 ### Deployment :rocket:
 
-Coming soon!
+I settled on deploying to [Netlify](https://netlify.com), as it gave me the least issues with Zola compatability/build stability. Frankly, I'm not sure why this was the case.
 
 ## Design :triangular_ruler:
 
