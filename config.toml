@@ -19,4 +19,4 @@ smart_punctuation = true
 
 [extra]
 # there's really no need for versioning, but it's funny(?)
-version = "1.0.0"
+version = "1.0.1"
