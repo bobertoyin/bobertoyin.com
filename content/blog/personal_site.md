@@ -1,7 +1,7 @@
 +++
 title = "Redoing a Personal Site"
 description = "If at first you don't succeed, pretend you don't know where your old site went."
-date = 2022-12-22
+date = 2022-12-23
 +++
 
 After getting my own domain name, I figured I should upgrade my old, somewhat crusty personal site into a sleeker one. Of course, instead of preserving the old site's code for a proper compare-and-contrast, or even a retrospective, I decided to wipe my git history in favor of historical revisionism. Yay! In light of this ~~massive~~ minor error, I'll go over some of the decisions that I made when planning this new site.
