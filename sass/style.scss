@@ -1,0 +1,54 @@
+// ONEHALF COLOR SCHEME
+$black: #383a42;
+$white: #fafafa;
+$red: #e45649;
+$green: #50a14f;
+$yellow: #c18401;
+$cyan: #0997b3;
+$blue: #0184bc;
+$purple: #a626a4;
+
+$link: $purple;
+$link-hover: $green;
+
+$content-blockquote-border-left: 4px solid $yellow;
+$content-blockquote-padding: 0.125rem 1rem;
+
+// FONTS
+$family-primary: "Public Sans", sans-serif;
+$code-font: "Source Code Pro", monospace;
+
+// BULMA
+@import "../node_modules/bulma/bulma.sass";
+
+// STYLES
+code {
+    font-family: $code-font;
+    background-color: $white;
+    color: $red;
+    padding: 0;
+}
+
+.red {
+    color: $red;
+}
+
+.blue {
+    color: $blue;
+}
+
+#boberto, #name {
+    color: $red;
+}
+
+#yin, #noun  {
+    color: $blue;
+}
+
+.navbar {
+    padding: 1rem 2rem;
+}
+
+p {
+    margin: 1.75rem 0;
+}

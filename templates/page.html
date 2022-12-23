@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title red">
+  {{ page.title }}
+</h1>
+<p class="subtitle is-italic blue">
+  {{ page.date | date(format="%B %e, %Y") }}
+</p>
+<hr>
+<div class="content">
+  {{ page.content | safe }}
+</div>
+<div>
+  {% set section = get_section(path=page.ancestors[1]) %}
+  <a href="{{ get_url(path=section.path) }}" class="return">&#x2b05; {{ section.title }}</a>
+</div>
+{% endblock content %}

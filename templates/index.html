@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title is-size-1 has-text-weight-bold red">
+  {{ section.extra.name | safe }}
+</h1>
+<p class="subtitle is-size-4 is-italic blue">noun</p>
+<p class="is-size-5 has-text-weight-semibold">{{ section.extra.synopsis | safe }}</p>
+<hr>
+<div class="content">
+  {{ section.content | safe }}
+</div>
+{% endblock content %}
