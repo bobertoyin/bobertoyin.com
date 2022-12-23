@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title red">
+  {{ page.title }}
+</h1>
+<p class="buttons">
+  {% if page.extra.url %}
+  <a href="{{ page.extra.url }}" target="_blank" class="button is-success">Site</a>
+  {% endif %}
+  <a href="{{ page.extra.repository }}" target="_blank" class="button is-info">Repository</a>
+</p>
+<hr>
+<div class="content">
+  {{ page.content | safe }}
+</div>
+<div>
+  {% set section = get_section(path=page.ancestors[1]) %}
+  <a href="{{ get_url(path=section.path) }}" class="return">&#x2b05; {{ section.title }}</a>
+</div>
+{% endblock content %}
