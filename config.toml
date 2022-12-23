@@ -4,13 +4,10 @@ title = "Robert Yin"
 description = "Robert Yin's Site"
 default_language = "en"
 
-# Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 minify_html = true
 
 [markdown]
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
 highlight_theme = "OneHalfLight"
 render_emoji = true
@@ -18,5 +15,4 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-# there's really no need for versioning, but it's funny(?)
-version = "1.0.1"
+version = "1.1.0"
