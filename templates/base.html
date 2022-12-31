@@ -6,7 +6,12 @@
   <title>
     Robert Yin
     {% if page.title %}
-     | {{ page.title }}
+      {% if page.ancestors.1 %}
+        {% set section = get_section(path=page.ancestors.1) %}
+         | {{ section.title }} - {{ page.title }}
+      {% else %}
+         | {{ page.title }}
+      {% endif %}
     {% elif section.title %}
      | {{ section.title }}
     {% endif %}
@@ -47,7 +52,7 @@
           Blog
         </a>
 
-        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/projects/_index.md') }}">
+        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/projects.md') }}">
           Projects
         </a>
 
@@ -71,8 +76,7 @@
   <div class="content has-text-centered">
     <p>
       <code>v{{ config.extra.version }}</code>, 
-      built with &#x2764; and 
-      <a href="{{ get_url(path='@/projects/personal_site.md') }}">some neat tools</a>.
+      built with &#x2764; by Robert Yin.
       Source code is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a> 
       and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY NC SA 4.0</a>.
     </p>

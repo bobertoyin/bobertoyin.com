@@ -1,6 +1,6 @@
 +++
 title = "Random Quotes"
-description = "Curated to perfection."
+description = "Curated to perfection"
 date = 2022-12-22
 +++
 
