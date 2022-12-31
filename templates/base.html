@@ -3,7 +3,14 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Robert Yin</title>
+  <title>
+    Robert Yin
+    {% if page.title %}
+     | {{ page.title }}
+    {% elif section.title %}
+     | {{ section.title }}
+    {% endif %}
+  </title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
@@ -13,9 +20,11 @@
 <header>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <h1 class="is-size-3 has-text-weight-bold">
-        <span class="red">boberto</span><span class="blue">yin</span>
-      </h1>
+      <a href="{{ get_url(path='@/_index.md') }}">
+        <h1 class="is-size-3 has-text-weight-bold">
+          <span class="red">boberto</span><span class="blue">yin</span>
+        </h1>
+      </a>
 
       <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
@@ -27,6 +36,10 @@
     <div class="navbar-menu" id="navMenu">
       <div class="navbar-end">
         <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/_index.md') }}">
+          Home
+        </a>
+
+        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/about.md') }}">
           About
         </a>
   
@@ -59,7 +72,7 @@
     <p>
       <code>v{{ config.extra.version }}</code>, 
       built with &#x2764; and 
-      <a href="{{ get_url(path='@/projects/personal_site.md') }}">some very nice tools</a>.
+      <a href="{{ get_url(path='@/projects/personal_site.md') }}">some neat tools</a>.
     </p>
   </div>
 </footer>
