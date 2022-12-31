@@ -13,6 +13,6 @@
 </div>
 <div>
   {% set section = get_section(path=page.ancestors[1]) %}
-  <a href="{{ get_url(path=section.path) }}" class="return">&#x2b05; {{ section.title }}</a>
+  <a href="{{ get_url(path=section.path) }}" class="return">&larr; {{ section.title }}</a>
 </div>
 {% endblock content %}

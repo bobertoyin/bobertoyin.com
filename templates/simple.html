@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+  <h1>
+    {% if page.title %}
+      {{ page.title }}
+    {% elif section.title %}
+      {{ section.title }}
+    {% endif %}
+  </h1>
+  <hr>
+  {% if page.content %}
+    {{ page.content | safe }}
+  {% elif section.content %}
+    {{ section.content | safe }}
+  {% endif %}
+  {% block extra %} {% endblock %}
+</div>
+{% endblock content %}
