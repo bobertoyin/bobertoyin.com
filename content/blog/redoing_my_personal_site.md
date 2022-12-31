@@ -1,5 +1,5 @@
 +++
-title = "Redoing a Personal Site"
+title = "Redoing My Personal Site"
 description = "If at first you don't succeed, pretend you don't know where your old site went."
 date = 2022-12-23
 +++
