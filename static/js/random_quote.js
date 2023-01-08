@@ -4,18 +4,37 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('quotes.json')
-        .then(response => response.json())
-        .then(quotes => {
-            let random_quote = quotes[getRandomInt(0, quotes.length)];
-            document.getElementById("random-quote").innerHTML = `
-                <p>
-                    <a href="${random_quote.source}" target="_blank">
-                        <strong>${random_quote.text}</strong>
-                    </a>
-                        —<em>${random_quote.speaker}</em>
-                </p>
-            `;
-        });
+function randomNoRepeats(array) {
+    var copy = array.slice(0);
+    return function() {
+      if (copy.length < 1) { copy = array.slice(0); }
+      var index = Math.floor(Math.random() * copy.length);
+      var item = copy[index];
+      copy.splice(index, 1);
+      return item;
+    };
+}
+
+function generateRandomQuote() {
+    let randomQuote = quoteGenerator();
+    document.getElementById("random-quote").innerHTML = `
+        <p>
+            <strong>${randomQuote.text}</strong>
+            <br>
+            <br>
+            <a href="${randomQuote.source}" target="_blank">
+                <em>${randomQuote.speaker}</em>
+            </a>
+            
+        </p>
+    `;
+}
+
+var quoteGenerator;
+
+fetch('quotes.json')
+    .then(response => response.json())
+    .then(quotes => {
+        quoteGenerator = randomNoRepeats(quotes);
+        generateRandomQuote();
 });
