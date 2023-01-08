@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-  {% if loop.index0 % per_row == (per_row - 1) %}
+  {% if loop.index0 % per_row == (per_row - 1) or loop.index == page.extra.projects | length %}
   </div>
   {% endif %}
   {% endfor %}
