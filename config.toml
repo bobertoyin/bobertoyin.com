@@ -15,4 +15,4 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-version = "1.5.0"
+version = "1.6.0"

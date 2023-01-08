@@ -8,6 +8,11 @@
 <p class="is-size-5 has-text-weight-semibold">{{ section.extra.synopsis | safe }}</p>
 <hr>
 <div class="content">
+  {% if section.extra.seeking_opportunities %}
+    <i>I'm currently looking for opportunities, so feel free to reach out!</i>
+  {% else %}
+  <i>I'm not currently looking for opportunities, but still feel free to reach out!</i>
+  {% endif %}
   {{ section.content | safe }}
 </div>
 {% endblock content %}

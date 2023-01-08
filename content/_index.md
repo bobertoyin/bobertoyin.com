@@ -4,6 +4,10 @@ template = "index.html"
 [extra]
 name = "bob·ert·o"
 synopsis = "A portmanteau of the nicknames \"Bobert\" and \"Roberto\"."
+seeking_opportunities = false
 +++
 
-:wave::cowboy_hat_face: Howdy! Good luck trying to make sense of what is posted here, but know that you're always welcome to learn more about me via cursed blog posts and oddball projects!
+* [Email](mailto:bobertoyin@gmail.com)
+* [Resume](robert_yin_resume.pdf)
+* [Github](https://github.com/bobertoyin)
+* [LinkedIn](https://linkedin.com/in/boberto)

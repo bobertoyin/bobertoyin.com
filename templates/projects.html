@@ -7,10 +7,10 @@
   {% if loop.index0 % per_row == 0 %}
   <div class="tile is-parent">
   {% endif %}
-    <div class="tile is-parent">
+    <div class="tile is-parent is-4">
       <div class="tile is-child box">
         <h3 class="title is-size-5">{{ project.name }}</h3>
-        <p class="subtitle is-italic is-size-6">{{project.description | safe}}</p>
+        <p class="subtitle is-italic is-size-6">{{ project.description | safe }}</p>
         <div class="buttons">
           <a class="button is-success" href="{{project.repository}}" target="_blank">Repository</a>
           {% if project.url %}
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-  {% if loop.index0 % per_row == (per_row - 1) %}
+  {% if loop.index0 % per_row == (per_row - 1) or loop.index == page.extra.projects | length %}
   </div>
   {% endif %}
   {% endfor %}
