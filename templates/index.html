@@ -8,11 +8,9 @@
 <p class="is-size-5 has-text-weight-semibold">{{ section.extra.synopsis | safe }}</p>
 <hr>
 <div class="content">
-  {% if section.extra.seeking_opportunities %}
-    <i>I'm currently looking for opportunities, so feel free to reach out!</i>
-  {% else %}
-  <i>I'm not currently looking for opportunities, but still feel free to reach out!</i>
-  {% endif %}
   {{ section.content | safe }}
+  <h2>Random Quote &#128172;</h2>
+  <blockquote id="random-quote"><p>...</p></blockquote>
+  <script src="{{ get_url(path='js/random_quote.js') }}"></script>
 </div>
 {% endblock content %}
