@@ -7,7 +7,7 @@
   {% if loop.index0 % per_row == 0 %}
   <div class="tile is-parent">
   {% endif %}
-    <div class="tile is-parent">
+    <div class="tile is-parent is-4">
       <div class="tile is-child box">
         <h3 class="title is-size-5">{{ project.name }}</h3>
         <p class="subtitle is-italic is-size-6">{{project.description | safe}}</p>
