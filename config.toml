@@ -1,4 +1,3 @@
-# Site Info
 base_url = "/"
 title = "Robert Yin"
 description = "Robert Yin's Site"
@@ -15,4 +14,4 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-version = "1.6.0"
+version = "1.7.0"
