@@ -7,8 +7,14 @@
   {{ section.content | safe }}
   {% for page in section.pages %}
     <div>
-      <h3 class="title"><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
-      <p class="subtitle is-italic is-size-6">{{ page.description | capitalize }}.</p>
+      <h3 class="title">{{ page.title }}</h3>
+      <div class="tags smaller-tags-margin">
+        {% for topic in page.taxonomies.topics %}
+        <span class="tag">{{ topic }}</span>
+        {% endfor %}
+      </div>
+      <span class="subtitle is-italic is-size-6">{{ page.summary | striptags }} <a href="{{ page.permalink }}#continue-reading">Read more...</a></span>
+      <br><br>
     </div>
   {% endfor %}
 </div>

@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title red">
-  {{ page.title }}
-</h1>
-<p class="subtitle is-italic blue">
-  {{ page.date | date(format="%B %e, %Y") }}
-</p>
-<hr>
 <div class="content">
+  <h1 class="title">
+    {{ page.title }}
+  </h1>
+  <p class="subtitle is-size-6">
+    Posted {{ page.date | date(format="%B %e, %Y") }}
+  </p>
+  <div class="tags">
+    {% for topic in page.taxonomies.topics %}
+    <span class="tag">{{ topic }}</span>
+    {% endfor %}
+  </div>
+  <hr>
   {{ page.content | safe }}
 </div>
 <div>

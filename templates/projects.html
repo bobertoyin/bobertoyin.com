@@ -12,9 +12,9 @@
         <h3 class="title is-size-5">{{ project.name }}</h3>
         <p class="subtitle is-italic is-size-6">{{ project.description | safe }}</p>
         <div class="buttons">
-          <a class="button is-success" href="{{project.repository}}" target="_blank" rel="noopener">Repository</a>
+          <a class="button is-success is-outlined" href="{{project.repository}}" target="_blank" rel="noopener">Repository</a>
           {% if project.url %}
-            <a class="button is-link" href="{{project.url}}" target="_blank">Site</a>
+            <a class="button is-danger is-outlined" href="{{project.url}}" target="_blank">Site</a>
           {% endif %}
         </div>
       </div>
