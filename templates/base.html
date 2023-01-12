@@ -23,13 +23,11 @@
 </head>
 
 <header>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a href="{{ get_url(path='@/_index.md') }}">
-        <h1 class="is-size-3 has-text-weight-bold">
-          <span class="red">boberto</span><span class="blue">yin</span>
-        </h1>
-      </a>
+      <h1 class="is-size-3 has-text-weight-bold">
+        <span class="red">boberto</span><span class="blue">yin</span>
+      </h1>
 
       <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
@@ -43,10 +41,6 @@
         <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/_index.md') }}">
           Home
         </a>
-
-        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/about.md') }}">
-          About
-        </a>
   
         <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/blog/_index.md') }}">
           Blog
@@ -54,10 +48,6 @@
 
         <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/projects.md') }}">
           Projects
-        </a>
-
-        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/photos/_index.md') }}">
-          Photos
         </a>
       </div>
     </div>
@@ -75,10 +65,11 @@
 <footer class="footer">
   <div class="content has-text-centered">
     <p>
-      <code>v{{ config.extra.version }}</code>, 
+      <code id="version">v{{ config.extra.version }}</code>, 
       built with &#x2764; by Robert Yin.
-      Source code is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a> 
-      and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY NC SA 4.0</a>.
+      <a href="https://github.com/bobertoyin/personal-site" target="_blank" rel="noopener">Source code</a>
+       is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank" rel="noopener">MIT</a> 
+      and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY NC SA 4.0</a>.
     </p>
   </div>
 </footer>

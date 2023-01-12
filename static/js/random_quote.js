@@ -23,7 +23,7 @@ function generateRandomQuote() {
             <br>
             <br>
             <a href="${randomQuote.source}" target="_blank">
-                <em>${randomQuote.speaker}</em>
+                ${randomQuote.speaker}
             </a>
             
         </p>
