@@ -6,11 +6,11 @@
     {{ section.extra.name | safe }}
   </h1>
   <p class="subtitle is-size-4 is-italic">noun</p>
-  <p class="is-size-5 has-text-weight-semibold">{{ section.extra.synopsis | safe }}</p>
+  <p class="is-size-5">{{ section.extra.synopsis | safe }}</p>
   <hr>
   {{ section.content | safe }}
   <h2>Random Quote &#128172;</h2>
-  <blockquote id="random-quote"><p>...</p></blockquote>
+  <blockquote id="random-quote"><p><strong>Enable JavaScript to get a random quote!</strong></p></blockquote>
   <script src="{{ get_url(path='js/random_quote.js') }}"></script>
   <div class="buttons">
     <button class="button" onclick="generateRandomQuote()">&#8635;</button>

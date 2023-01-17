@@ -36,6 +36,6 @@ $family-monospace: "Source Code Pro", monospace;
     color: $red;
 }
 
-a:hover:not(.button) {
+a:hover:not(.button):not(.navbar-item) {
     text-decoration: underline;
 }
