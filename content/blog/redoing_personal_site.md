@@ -1,6 +1,7 @@
 +++
 title = "Redoing My Personal Site"
 date = 2022-12-23
+updated = 2023-01-16
 [taxonomies]
 topics = ["web development", "personal project"]
 +++
@@ -19,12 +20,9 @@ Of course, instead of preserving the old site's code for a proper compare-and-co
 
 Although it was fun to do in high school, building a personal site from plain HTML and CSS files does not appeal to me at all. Instead, what I needed was a **static site generator**, which would allow me to create new content without having to worry about excessive styling and markup. Thus, I sat down to consider a few of the popular options available:
 
-* **Jekyll**
-    * I've used it before, but last time I used it I had some issues with my Ruby environment.
-* **Hugo**
-    * It felt too complex and unwieldy for my use case (or perhaps just too cool for my mushy brain).
-* **Zola**
-    * It seemed simple enough for me and built in Rust (I'm willing to buy into the Rust hype like a goober).
+* **Jekyll**: I've used it before, but last time I used it I had some issues with my Ruby environment.
+* **Hugo**: It felt too complex and unwieldy for my use case (or perhaps just too cool for my mushy brain).
+* **Zola**: It seemed simple enough for me and built in Rust (I'm willing to buy into the Rust hype like a goober).
 
 Zola was in fact simple enough for me to scaffold my site pages and general stylings, although nicer features like topic tagging and post pagination were complex enough to put them on the backburner at first.
 
