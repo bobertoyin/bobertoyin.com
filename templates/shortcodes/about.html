@@ -20,17 +20,25 @@
         </li>
         <li>
             <i class="fa-li fa-solid fa-graduation-cap"></i>
-            {{ config.extra.education.degree }} at <a href="{{ config.extra.education.link }}" target="_blank">{{ config.extra.education.school }}</a>
+            {{ config.extra.education.degree }} at <a href="{{ config.extra.education.link }}" target="_blank">{{ config.extra.education.school }} (May 2023)</a>
         </li>
     </ul>
 </p>
 <div class="buttons">
-    <a class="button is-danger is-outlined" href="https://github.com/{{ config.extra.github }}" target="_blank">
+    <a class="button is-black is-outlined" href="https://github.com/{{ config.extra.github }}" target="_blank">
         <span class="icon-text">
             <span class="icon">
               <i class="fa-brands fa-github"></i>
             </span>
             <span>{{ config.extra.github }}</span>
+        </span>
+    </a>
+    <a class="button is-warning is-outlined" href="mailto:{{ config.extra.email }}">
+        <span class="icon-text">
+            <span class="icon">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <span>{{ config.extra.email }}</span>
         </span>
     </a>
     <a class="button is-link is-outlined" href="https://linkedin.com/in/{{ config.extra.linkedin }}" target="_blank">
@@ -39,14 +47,6 @@
               <i class="fa-brands fa-linkedin"></i>
             </span>
             <span>{{ config.extra.linkedin }}</span>
-        </span>
-    </a>
-    <a class="button is-black is-outlined" href="mailto:{{ config.extra.email }}">
-        <span class="icon-text">
-            <span class="icon">
-              <i class="fa-solid fa-envelope"></i>
-            </span>
-            <span>{{ config.extra.email }}</span>
         </span>
     </a>
 </div>

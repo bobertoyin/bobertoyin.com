@@ -19,7 +19,7 @@ function generateRandomQuote() {
     let randomQuote = quoteGenerator();
     document.getElementById("random-quote").innerHTML = `
         <p>
-            <strong>${randomQuote.text}</strong>
+            ${randomQuote.text}
             <br>
             <br>
             <a href="${randomQuote.source}" target="_blank">

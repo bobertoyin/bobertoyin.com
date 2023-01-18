@@ -17,16 +17,16 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-version = "1.11.1"
+version = "1.12.0"
 email = "bobertoyin.com"
 github = "bobertoyin"
 linkedin = "boberto"
 location = "Boston, MA"
 [extra.job]
 title = "Incoming Software Developer"
-company = "Epic Systems"
+company = "Epic"
 link = "https://epic.com"
 [extra.education]
-degree = "Candidate for B.S. in Computer Science"
+degree = "B.S. in Computer Science"
 school = "Northeastern University"
 link = "https://northeastern.edu"
