@@ -6,18 +6,11 @@ name = "bob·ert·o"
 synopsis = "A portmanteau of the nicknames <strong>Bobert</strong> and <strong>Roberto</strong>."
 +++
 
-:wave::cowboy_hat_face: Howdy! I'm Robert Yin, a fourth-year computer science student at [Northeastern University](https://www.northeastern.edu) (finishing May 2023) and incoming software developer at [Epic](https://www.epic.com) (starting August 2023). My coursework is mostly focused on artificial intelligence, but I'm always interested in learning more about the wider scope of software development, including the tools and design principles that make code work.
+{% about(looking=false) %}
+:wave::cowboy_hat_face: Howdy! I'm Robert Yin, a software engineer who dabbles in making important things and specializes in making pointless things. To all past, present, and future employers that currently reading this: that last statement was just a joke. 
+{% end %}
 
-## Current Status :globe_with_meridians:
-
-*I'm not currently looking for opportunities, but still feel free to reach out!*
-
-* Email: [bobertoyin@gmail.com](mailto:bobertoyin@gmail.com)
-* Github: [@bobertoyin](https://github.com/bobertoyin)
-* LinkedIn: [@boberto](https://linkedin.com/in/boberto)
-
-
-## (Not So) Frequently Asked Questions :thought_balloon:
+## (In)Frequently Asked Questions :thought_balloon:
 
 > Does anyone actually call you Boberto? :speaking_head:
 

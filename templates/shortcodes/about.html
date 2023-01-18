@@ -1,0 +1,52 @@
+<p>
+    {{ body | markdown(inline=true) | safe }}
+    <em>
+        {% if looking %}
+            I'm currently looking for opportunities, so please feel free to reach out!
+        {% else %}
+            I'm not currently looking for opportunities, but still feel free to reach out!
+        {% endif %}
+    </em>
+</p>
+<p>
+    <ul class="fa-ul" style="list-style: none;">
+        <li>
+            <i class="fa-li fa-solid fa-location-dot"></i>
+            Currently in {{ config.extra.location }}
+        </li>
+        <li>
+            <i class="fa-li fa-solid fa-briefcase"></i>
+            {{ config.extra.job.title }} at <a href="{{ config.extra.job.link }}" target="_blank">{{ config.extra.job.company }}</a>
+        </li>
+        <li>
+            <i class="fa-li fa-solid fa-graduation-cap"></i>
+            {{ config.extra.education.degree }} at <a href="{{ config.extra.education.link }}" target="_blank">{{ config.extra.education.school }}</a>
+        </li>
+    </ul>
+</p>
+<div class="buttons">
+    <a class="button is-danger is-outlined" href="https://github.com/{{ config.extra.github }}" target="_blank">
+        <span class="icon-text">
+            <span class="icon">
+              <i class="fa-brands fa-github"></i>
+            </span>
+            <span>{{ config.extra.github }}</span>
+        </span>
+    </a>
+    <a class="button is-link is-outlined" href="https://linkedin.com/in/{{ config.extra.linkedin }}" target="_blank">
+        <span class="icon-text">
+            <span class="icon">
+              <i class="fa-brands fa-linkedin"></i>
+            </span>
+            <span>{{ config.extra.linkedin }}</span>
+        </span>
+    </a>
+    <a class="button is-black is-outlined" href="mailto:{{ config.extra.email }}">
+        <span class="icon-text">
+            <span class="icon">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <span>{{ config.extra.email }}</span>
+        </span>
+    </a>
+</div>

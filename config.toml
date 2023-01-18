@@ -4,7 +4,6 @@ description = "Robert Yin's Site"
 default_language = "en"
 
 compile_sass = true
-minify_html = true
 
 taxonomies = [
     {name = "topics"}
@@ -18,4 +17,16 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-version = "1.10.0"
+version = "1.11.0"
+email = "bobertoyin.com"
+github = "bobertoyin"
+linkedin = "boberto"
+location = "Boston, MA"
+[extra.job]
+title = "Incoming Software Developer"
+company = "Epic Systems"
+link = "https://epic.com"
+[extra.education]
+degree = "Candidate for B.S. in Computer Science"
+school = "Northeastern University"
+link = "https://northeastern.edu"
