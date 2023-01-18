@@ -6,8 +6,8 @@ name = "bob·ert·o"
 synopsis = "A portmanteau of the nicknames <strong>Bobert</strong> and <strong>Roberto</strong>."
 +++
 
-{% status(looking=false) %}
-:wave::cowboy_hat_face: Howdy! I'm Robert Yin, a software engineer/developer/[enter shiny new industry title here].
+{% about(looking=false) %}
+:wave::cowboy_hat_face: Howdy! I'm Robert Yin, a software engineer who dabbles in making important things and specializes in making pointless things. To all past, present, and future employers that currently reading this: that last statement was just a joke. 
 {% end %}
 
 ## (In)Frequently Asked Questions :thought_balloon:
