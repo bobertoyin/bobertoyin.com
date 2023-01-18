@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>
-    Robert Yin
+    {{ config.title }}
     {% if page.title %}
       {% if page.ancestors.1 %}
         {% set section = get_section(path=page.ancestors.1) %}
@@ -57,7 +57,7 @@
 
         <div class="buttons navbar-item">
           <a class="navbar-item has-text-weight-semibold button is-outlined" href="{{ get_url(path='robert_yin_resume.pdf') }}">
-            Resume
+            Resumé
           </a>
         </div>
       </div>
@@ -77,9 +77,9 @@
   <div class="content has-text-centered">
     <p>
       <span id="version">v{{ config.extra.version }}</span>, built with &#x2764; by Robert Yin. 
-      <a href="https://github.com/bobertoyin/personal-site" target="_blank" rel="noopener">Source code</a>
-       is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank" rel="noopener">MIT</a> 
-      and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY NC SA 4.0</a>.
+      <a href="https://github.com/bobertoyin/personal-site" target="_blank">Source code</a>
+       is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a> 
+      and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY NC SA 4.0</a>.
     </p>
   </div>
 </footer>
