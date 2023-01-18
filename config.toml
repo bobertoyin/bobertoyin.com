@@ -4,7 +4,6 @@ description = "Robert Yin's Site"
 default_language = "en"
 
 compile_sass = true
-minify_html = true
 
 taxonomies = [
     {name = "topics"}
