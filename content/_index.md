@@ -10,6 +10,8 @@ synopsis = "A portmanteau of the nicknames <strong>Bobert</strong> and <strong>R
 :wave::cowboy_hat_face: Howdy! I'm Robert Yin, a software engineer who dabbles in making important things and specializes in making silly things.
 
 > To all my past, present, and future employers: I promise that last statement was just a joke.
+
+If you're looking for projects that I've worked on, then please check out my GitHub page.
 {% end %}
 
 ## (In)Frequently Asked Questions :thought_balloon:
