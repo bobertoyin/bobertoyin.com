@@ -17,7 +17,7 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-version = "1.12.2"
+version = "1.13.0"
 email = "bobertoyin.com"
 github = "bobertoyin"
 linkedin = "boberto"

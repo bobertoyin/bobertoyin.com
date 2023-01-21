@@ -5,29 +5,53 @@
   <h1 class="title">
     {{ page.title }}
   </h1>
-  <p class="subtitle is-size-6">
-    <span class="icon-text">
-      <span class="icon">
-        <i class="fa-regular fa-calendar-check"></i>
-      </span>
-      <span>Posted {{ page.date | date(format="%B %e, %Y") }}</span>
-    </span>
-    {% if page.updated %}
-    <br>
-    <span class="icon-text">
-      <span class="icon">
-        <i class="fa-regular fa-calendar-plus"></i>
-      </span>
-      <span>Updated {{ page.updated | date(format="%B %e, %Y") }}</span>
-    </span>
-    {% endif %}
-  </p>
-  <div class="tags">
-    {% for topic in page.taxonomies.topics %}
-    <span class="tag">{{ topic }}</span>
-    {% endfor %}
+  <div class="block">
+    <div class="field is-grouped is-grouped-multiline">
+      <div class="control">
+        <div class="tags has-addons has-text-weight-bold">
+          <span class="tag is-dark">Posted</span>
+          <span class="tag is-success">{{ page.date | date(format="%B %e, %Y") }}</span>
+        </div>
+      </div>
+      {% if page.updated %}
+      <div class="control">
+        <div class="tags has-addons has-text-weight-bold">
+          <span class="tag is-dark">Updated</span>
+          <span class="tag is-warning">{{ page.updated | date(format="%B %e, %Y") }}</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="block">
+    <div class="tags">
+      {% for topic in page.taxonomies.topics %}
+      <span class="tag is-info has-text-weight-semibold">{{ topic }}</span>
+      {% endfor %}
+    </div>
   </div>
   <hr>
+  {% if page.toc %}
+  <div class="box m-6">
+    <h3>Table of Contents</h3>
+    <ul>
+    {% for h1 in page.toc %}
+      <li>
+        <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+          {% if h1.children %}
+            <ul>
+              {% for h2 in h1.children %}
+                <li>
+                  <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
   {{ page.content | safe }}
 </div>
 <div>

@@ -6,15 +6,23 @@
   <hr>
   {{ section.content | safe }}
   {% for page in section.pages %}
-    <div>
-      <h3 class="title">{{ page.title }}</h3>
-      <div class="tags smaller-tags-margin">
-        {% for topic in page.taxonomies.topics %}
-        <span class="tag">{{ topic }}</span>
-        {% endfor %}
+    <div class="block">
+      <div class="block">
+        <h3 class="title">{{ page.title }}</h3>
       </div>
-      <span class="subtitle is-italic is-size-6">{{ page.summary | striptags }} <a href="{{ page.permalink }}">Read more...</a></span>
-      <br><br>
+      <div class="block">
+        <div class="tags">
+          {% for topic in page.taxonomies.topics %}
+          <span class="tag is-info has-text-weight-semibold">{{ topic }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="block">
+        {{ page.summary | safe }}
+      </div>
+      <div class="block">
+        <a href="{{ page.permalink }}">Read more...</a>
+      </div>
     </div>
   {% endfor %}
 </div>
