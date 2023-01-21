@@ -1,6 +1,6 @@
 +++
 title = "Quotes"
-date = 2023-01-08
+date = 2022-12-22
 [taxonomies]
 topics = ["random"]
 +++
