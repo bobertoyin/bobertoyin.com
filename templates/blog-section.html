@@ -11,6 +11,16 @@
         <h3 class="title">{{ page.title }}</h3>
       </div>
       <div class="block">
+        <div class="field is-grouped is-grouped-multiline">
+          <div class="control">
+            <div class="tags has-addons has-text-weight-bold">
+              <span class="tag is-success">Posted</span>
+              <span class="tag">{{ page.date | date(format="%B %e, %Y") }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
         {{ page.summary | safe }}
       </div>
       <div class="block">

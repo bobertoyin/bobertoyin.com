@@ -9,15 +9,15 @@
     <div class="field is-grouped is-grouped-multiline">
       <div class="control">
         <div class="tags has-addons has-text-weight-bold">
-          <span class="tag is-dark">Posted</span>
-          <span class="tag is-success">{{ page.date | date(format="%B %e, %Y") }}</span>
+          <span class="tag is-success">Posted</span>
+          <span class="tag">{{ page.date | date(format="%B %e, %Y") }}</span>
         </div>
       </div>
       {% if page.updated %}
       <div class="control">
         <div class="tags has-addons has-text-weight-bold">
-          <span class="tag is-dark">Updated</span>
-          <span class="tag is-warning">{{ page.updated | date(format="%B %e, %Y") }}</span>
+          <span class="tag is-warning">Updated</span>
+          <span class="tag">{{ page.updated | date(format="%B %e, %Y") }}</span>
         </div>
       </div>
       {% endif %}
