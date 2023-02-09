@@ -1,3 +1,5 @@
+// OVERRIDE BULMA VARIABLES
+
 $black: #383a42;
 $white: #fafafa;
 $red: #e45649;
@@ -7,36 +9,55 @@ $cyan: #0997b3;
 $blue: #0184bc;
 $purple: #a626a4;
 
-$link-hover: $blue;
-
-$family-primary: "Public Sans", sans-serif;
-$family-monospace: "Source Code Pro", monospace;
+$family-primary: "Libre Baskerville", serif;
+$family-monospace: "Fira Mono", monospace;
 
 @import "../node_modules/bulma/bulma.sass";
 
-#version {
-    padding: 0;
-    background-color: $white;
-    font-family: $family-monospace;
-    color: $red;
+// https://www.getzola.org/documentation/content/syntax-highlighting/#styling-codeblocks
+
+pre {
+    padding: 1rem;
+    overflow: auto;
 }
+
+pre[data-linenos] {
+    padding: 1rem 0;
+}
+
+pre table td {
+    padding: 0;
+}
+
+pre table td:nth-of-type(1) {
+    text-align: center;
+    user-select: none;
+}
+
+pre mark {
+    display: block;
+    background-color: rgba(254, 252, 232, 0.9);
+}
+
+pre table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+// CUSTOM DEFINITIONS
 
 .red {
     color: $red;
 }
 
-.blue {
-    color: $blue;
+#version {
+    font-family: $family-monospace;
 }
 
 .navbar {
     padding: 1rem 1.25rem;
 }
 
-.status-list {
-    list-style: none;
-}
-
-a:hover:not(.button):not(.navbar-item):not(.logo) {
+a:hover {
     text-decoration: underline;
 }
