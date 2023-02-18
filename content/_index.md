@@ -19,7 +19,7 @@ Nope. Bobert and Roberto are historical nicknames that a few people have used, b
 
 > Favorite programming language?
 
-I'm not currently keen on crowning a language as my *favorite*, as my ~~traumatic~~ university curriculum has taught me that every langauge has its pros and cons in various engineering scenarios. However, I find that Python and Rust are my current go-to languages due to their familiarity and ability to do most things well enough. I also enjoy emojis as a *general-purpose* communication medium, but have yet to master it in [code form](https://www.emojicode.org).
+I'm not currently keen on crowning a language as my *favorite*, as my ~~traumatic~~ university curriculum has taught me that every langauge has its pros and cons in various engineering scenarios. However, I find that Python and Rust are my current go-to languages due to their familiarity and ability to do most things well enough. I also enjoy emojis as a general-purpose communication medium, but have yet to master it in [code form](https://www.emojicode.org).
 
 > Any hobbies outside of programming/software?
 
