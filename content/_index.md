@@ -8,9 +8,7 @@ synopsis = "A portmanteau of the nicknames <strong>Bobert</strong> and <strong>R
 
 {% about(looking=false) %}
 Howdy! I'm Robert Yin, a software engineer who dabbles in making important things and specializes in making silly things.
-
 > To all my past, present, and future employers: I promise that last statement was just a joke.
-
 {% end %}
 
 ## (In)Frequently Asked Questions

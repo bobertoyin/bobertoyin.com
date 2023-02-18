@@ -27,6 +27,9 @@
         <a href="{{ page.permalink }}">Read more...</a>
       </div>
     </div>
+    {% if not loop.last %}
+    <hr>
+    {% endif %}
   {% endfor %}
 </div>
 {% endblock content %}

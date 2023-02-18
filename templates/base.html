@@ -17,14 +17,11 @@
     {% endif %}
   </title>
   {# see https://css-tricks.com/emoji-as-a-favicon for the emoji favicon info #}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
   <script src="{{ get_url(path='js/navburger.js') }}"></script>
-  <script src="{{ get_url(path='js/animations.js') }}"></script>
   <script src="https://kit.fontawesome.com/0a1b4c6046.js" crossorigin="anonymous"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤠</text></svg>">
 </head>
 
 <header>
@@ -71,7 +68,7 @@
 <footer class="footer">
   <div class="content has-text-centered">
     <p>
-      <span id="version">v{{ config.extra.version }}</span>, built with love by Robert Yin. 
+      <code>v{{ config.extra.version }}</code>, now with more nonsense! 
       <a href="https://github.com/bobertoyin/personal-site" target="_blank">Source code</a>
        is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a> 
       and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY NC SA 4.0</a>.

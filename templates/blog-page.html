@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% set section = get_section(path=page.ancestors[1]) %}
+
 {% block content %}
 <div class="content">
   <h1 class="title">
@@ -26,8 +28,7 @@
   <hr>
   {{ page.content | safe }}
 </div>
-<div>
-  {% set section = get_section(path=page.ancestors[1]) %}
-  <a href="{{ get_url(path=section.path) }}" class="return">&larr; {{ section.title }}</a>
+<div class="block">
+  &larr; <a href="{{ get_url(path=section.path) }}" class="return">{{ section.title }}</a>
 </div>
 {% endblock content %}
