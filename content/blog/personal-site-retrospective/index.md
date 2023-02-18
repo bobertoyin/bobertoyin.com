@@ -9,6 +9,8 @@ As a sort of coronation for this version of my personal site, I figured it'd be 
 
 <!-- more -->
 
+*Note: the use of "College Era" throughout this post very well might be a misnomer: there's no guarantee that I avoid graduate school for the rest of my life.*
+
 ## Innocence in the BCE (Before College Era)
 
 My first attempts at a personal website came during Fall 2017, having taken both a web development and database class in high school. I actually remember creating the very first version of the site with the [Wix](https://www.wix.com), but ended up porting it to vanilla HTML, CSS, and JavaScript to flex my new skills and allow for more flexibility. I was able to recover most of the site, but it wasn't from Wix, nor was it from any of my own code repositories (I have a bad habit of wiping old projects instead of preserving them). Instead, I was lucky enough to have found it on my friend's GitHub profile. I'm not sure why he saved my website to his profile, but I've now forked it to my own profile and have it under a [public archive](https://github.com/bobertoyin/old-porftolio-site) so that everyone can view it.
@@ -45,14 +47,49 @@ There's so much more bad meat for me to sink my teeth into on this site, but I'm
 
 ### The Good
 
+Most of the nice things about this site revolve around being the "right idea," which is to say that despite the flaws there is good intent behind them all. 
+
+{{ image(alt='First Ever Logo', img='logo.svg', caption='There wasn&#x27;t any real reason to use a lightning bolt and gears in this purple logo, but it looks pretty sick.') }}
+
+As I've progressed through college and experienced some of the corporate life that comes with software engineering, I've appreciated keeping non-technical and creative endeavors close to me. Past me seems to agree:
+
+> Aside from riding unicorns and slaying ogres, Robert enjoys playing soccer at a recreational and high school level, cooking food for his family (and especially for himself), and sleeping at irregular hours of the day.
+
+The mission statement is quite wholesome and makes me jealous of how hopeful I used to be about my computer science career:
+
+> The mission of this website is quite simple: to highlight my projects and creations. In order to track my progress and to highlight my abilities, both creative and technical, I have created a website dedicated to make me and my projects open to the public. Whether it happens to be a small side project, a major milestone, or anything in between, it will be available for viewing on this website. This website itself qualifies as a creation, and it is one I take pride in.
+
+Ultimately, there's a lot on this site that reminds me that software and the web hasn't always been bleak and marred by the messes of adult life: sometimes it can be fun and simple.
+
+{{ image(alt='Golden Gate Bridge in San Francisco', img='goldengatebridge.png', caption='Seeing this image of the Golden Gate Bridge always reminds me of how I got started with computer science in the first place.') }}
+
 ## Improvement in the CE (College Era)
 
+This is where the journey back in time gets tricky. I had many iterations of sites built using [Jekyll](https://jekyllrb.com) during my first three years of college, but I ended up deleting the source code without saving a copy anywhere. The best I could do was pull a [single day's version of the Home page](https://web.archive.org/web/20220102232459/https://bobertoyin.github.io) from the Wayback Machine.
+
 ### The Good
+
+The design and formatting of the site is more consistent and multi-dimensional: there's a color scheme that isn't too bad to look at, [Liquid](https://shopify.github.io/liquid) templating means that HTML elements are used more consistently, and there's a healthy usage of emojis wherever applicable!
+
+{{ image(alt='Emojis with HTML Lists', img='emojis.png', caption='Maybe emojis aren&#x27;t actually a critical design choice, but they sure are fun.') }}
+
+I also think this website still gives off a relatively youthful and spry energy that isn't too far off from the high school site, but is a little more reserved and mature.
 
 ### The Bad
 
-## My Website Today
+One issue that this site has is the number of unnecessary pages in the navigation bar and on the site: "cooking", "reading", and "random" content could all easily be placed into a single "blog" page with tags for each category. However, I can't totally falt my past self for making this mistake because this criticism comes from a wiser Robert who is aware of the fact that many static site generators are "blog-focused".
 
-### The Good
+This next issue is a bit of a nitpick, but the site doesn't handle responsiveness all that well. This could've easily been remedied by picking up a CSS framework that could automatically handle responsiveness. TLDR; don't let non-frontend developers write too much CSS by hand.
 
-### The Future
+{{ image(alt='Not Perfect Responsiveness', img='imperfectresponsiveness.png', caption='Sure, it&#x27;s not bad, but it&#x27;s not great either.') }}
+
+Lastly, I don't love the idea of making the homepage a glorified copy of my resume, which is exactly what I did for this site. Although trying to showcase your work and abilities isn't a bad thing, it makes more sense to highlight content that can't fit on a resume (e.g., blog posts!).
+
+## Consistency in the PCE (Post-College Era)
+
+There are two big takeaways from this journey back in time that I plan to keep with this new iteration of my personal site:
+
+1. Don't do historical revisionism. Mistakes are good for learning and making consistent improvements.
+2. Sometimes simpler is better, even if it means not looking as shiny and fun to play with as other personal sites.
+
+Will my site be guaranteed to look the same from now on? Maybe not, but at least I can push changes knowing that improvement is always possible.
