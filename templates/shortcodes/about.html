@@ -1,5 +1,5 @@
+{{ body | markdown | safe }}
 <p>
-    {{ body | markdown(inline=true) | safe }}
     <em>
         {% if looking %}
             I'm currently looking for job opportunities, so please feel free to reach out!
@@ -8,35 +8,31 @@
         {% endif %}
     </em>
 </p>
-<p>
-    <ul class="fa-ul" style="list-style: none;">
-        <li>
-            <i class="icon fa-li fa-solid fa-location-dot"></i>
-            Based in {{ config.extra.location }}
-        </li>
-        <li>
-            <i class="icon fa-li fa-solid fa-briefcase"></i>
-            {{ config.extra.job.title }} at <a href="{{ config.extra.job.link }}" target="_blank">{{ config.extra.job.company }}</a>
-        </li>
-        <li>
-            <i class="icon fa-li fa-solid fa-graduation-cap"></i>
-            {{ config.extra.education.degree }} at <a href="{{ config.extra.education.link }}" target="_blank">{{ config.extra.education.school }}</a>
-        </li>
-    </ul>
-</p>
-<p>
-    <ul class="fa-ul" style="list-style: none;">
-        <li>
-            <i class="icon fa-li fa-solid fa-envelope"></i>
-            <a href="mailto:{{ config.extra.email }}" target="_blank">{{ config.extra.email }}</a>
-        </li>
-        <li>
-            <i class="icon fa-li fa-brands fa-linkedin"></i>
-            <a href="https://linkedin.com/in/{{ config.extra.linkedin }}" target="_blank">@{{ config.extra.linkedin }}</a>
-        </li>
-        <li>
-            <i class="icon fa-li fa-brands fa-github"></i>
-            <a href="https://github.com/{{ config.extra.github }}" target="_blank">@{{ config.extra.github }}</a>
-        </li>
-    </ul>
-</p>
+<ul class="fa-ul" style="list-style: none;">
+    <li>
+        <i class="icon fa-li fa-solid fa-location-dot"></i>
+        Based in {{ config.extra.location }}
+    </li>
+    <li>
+        <i class="icon fa-li fa-solid fa-briefcase"></i>
+        {{ config.extra.job.title }} at <a href="{{ config.extra.job.link }}" target="_blank">{{ config.extra.job.company }}</a>
+    </li>
+    <li>
+        <i class="icon fa-li fa-solid fa-graduation-cap"></i>
+        {{ config.extra.education.degree }} at <a href="{{ config.extra.education.link }}" target="_blank">{{ config.extra.education.school }}</a>
+    </li>
+</ul>
+<ul class="fa-ul" style="list-style: none;">
+    <li>
+        <i class="icon fa-li fa-solid fa-envelope"></i>
+        <a href="mailto:{{ config.extra.email }}" target="_blank">{{ config.extra.email }}</a>
+    </li>
+    <li>
+        <i class="icon fa-li fa-brands fa-linkedin"></i>
+        <a href="https://linkedin.com/in/{{ config.extra.linkedin }}" target="_blank">@{{ config.extra.linkedin }}</a>
+    </li>
+    <li>
+        <i class="icon fa-li fa-brands fa-github"></i>
+        <a href="https://github.com/{{ config.extra.github }}" target="_blank">@{{ config.extra.github }}</a>
+    </li>
+</ul>
