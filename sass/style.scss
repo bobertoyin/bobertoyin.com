@@ -63,6 +63,13 @@ pre table {
     padding: 1rem 1.25rem;
 }
 
+.navbar-brand a {
+    color: $black;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
 a:hover {
     text-decoration: underline;
 }
