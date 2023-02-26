@@ -70,14 +70,10 @@ pre table {
     }
 }
 
-a:hover {
+a:hover:not(.navbar-item) {
     text-decoration: underline;
 }
 
 .pagination a:hover {
     text-decoration: none;
-}
-
-#profile-pic {
-    //filter: grayscale(100%) contrast(110%) brightness(95%);
 }

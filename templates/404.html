@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h1 class="title">
+      Page Not Found
+    </h1>
+    <hr>
+    <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <div class="tile is-3 is-child">
+            <figure class="image ml-0 mb-3">
+                <img id="profile-pic" src="{{ get_url(path='chorbus.png') }}">
+            </figure>
+          </div>
+          <div class="tile is-child">
+                Chorbus is displeased with your actions. 
+                Think about what you've done. 
+                Think about how you arrived at this place.
+                Did you enjoy it?
+                Did you find it amusing?
+                Did you giggle?
+                <br>
+                &#8230;
+                <br>
+                Did you cry?
+                <br>
+                &#8230;
+                <br>
+                Will you cry?
+                <br>
+                &#8230;
+                <br>
+                Will you cower?
+                <br>
+                &#8230;
+                <br>
+                You should.
+                <br>
+                &#8230;
+                <br>
+                You should cower.
+                <br>
+                &#8230;
+                <br>
+                Cower.
+                <br>
+                &#8230;
+                <br>
+                Cower in fear before Chorbus.
+                <br>
+                &#8230;
+                <br>
+                Or you can just <a href="{{ get_url(path='@/_index.md') }}">return to the homepage</a>.
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock content %}

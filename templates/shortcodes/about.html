@@ -1,8 +1,8 @@
 <div class="tile is-ancestor">
     <div class="tile is-parent">
       <div class="tile is-4 is-child">
-        <figure class="image" id="profile-pic">
-            <img src="{{ get_url(path=profile) }}">
+        <figure class="image ml-0 mb-3">
+            <img id="profile-pic" src="{{ get_url(path=profile) }}">
         </figure>
       </div>
       <div class="tile is-child">
@@ -34,6 +34,10 @@
             <li>
                 <i class="icon fa-li fa-solid fa-envelope"></i>
                 <a href="mailto:{{ config.extra.email }}" target="_blank">{{ config.extra.email }}</a>
+            </li>
+            <li>
+                <i class="icon fa-li fa-solid fa-file-lines"></i>
+                <a href="{{ get_url(path=config.extra.resume) }}" target="_blank">{{ config.extra.resume }}</a>
             </li>
             <li>
                 <i class="icon fa-li fa-brands fa-linkedin"></i>
