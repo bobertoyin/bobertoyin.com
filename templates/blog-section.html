@@ -5,7 +5,7 @@
   <h1>{{ section.title }}</h1>
   <hr>
   {{ section.content | safe }}
-  {% for page in section.pages %}
+  {% for page in paginator.pages %}
     <div class="block">
       <div class="block">
         <h3 class="title">{{ page.title }}</h3>
@@ -27,9 +27,42 @@
         <a href="{{ page.permalink }}">Read more...</a>
       </div>
     </div>
-    {% if not loop.last %}
     <hr>
-    {% endif %}
   {% endfor %}
+  <nav class="pagination" role="navigation" aria-label="pagination">
+    <a class="pagination-previous" href="{{ paginator.previous }}">&#8592;</a>
+    <a class="pagination-next" href="{{ paginator.next }}">&#8594;</a>
+    <ul class="pagination-list">
+      {% if paginator.current_index > 1 %}
+      <li>
+        <a class="pagination-link" aria-label="Goto page 1" href="{{ paginator.first }}">1</a>
+      </li>
+      {% endif %}
+      {% if paginator.current_index - 1 > 1 %}
+      <li>
+        <span class="pagination-ellipsis">&hellip;</span>
+      </li>
+      <li>
+        <a class="pagination-link" aria-label="Goto page {{ paginator.current_index - 1 }}" href="{{ paginator.previous }}">{{ paginator.current_index - 1 }}</a>
+      </li>
+      {% endif %}
+      <li>
+        <a class="pagination-link is-current" aria-label="Page {{ paginator.current_index }}" aria-current="page">{{ paginator.current_index }}</a>
+      </li>
+      {% if paginator.current_index + 1 < paginator.number_pagers %}
+      <li>
+        <a class="pagination-link" aria-label="Goto page {{ paginator.current_index + 1 }}" href="{{ paginator.next }}">{{ paginator.current_index + 1 }}</a>
+      </li>
+      <li>
+        <span class="pagination-ellipsis">&hellip;</span>
+      </li>
+      {% endif %}
+      {% if paginator.current_index < paginator.number_pagers %}
+      <li>
+        <a class="pagination-link" aria-label="Goto page {{ paginator.number_pagers }}" href="{{ paginator.last }}">{{ paginator.number_pagers }}</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
 </div>
 {% endblock content %}
