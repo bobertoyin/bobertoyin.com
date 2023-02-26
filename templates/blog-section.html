@@ -5,7 +5,7 @@
   <h1>{{ section.title }}</h1>
   <hr>
   {{ section.content | safe }}
-  {% for page in section.pages %}
+  {% for page in paginator.pages %}
     <div class="block">
       <div class="block">
         <h3 class="title">{{ page.title }}</h3>
@@ -27,9 +27,19 @@
         <a href="{{ page.permalink }}">Read more...</a>
       </div>
     </div>
-    {% if not loop.last %}
     <hr>
-    {% endif %}
   {% endfor %}
+  <nav class="pagination" role="navigation" aria-label="pagination">
+    {% if not paginator.previous %}
+    <a class="pagination-previous is-disabled">&#8592;</a>
+    {% else %}
+    <a class="pagination-previous" href="{{ paginator.previous }}"">&#8592;</a>
+    {% endif %}
+    {% if not paginator.next %}
+    <a class="pagination-previous is-disabled">&#8594;</a>
+    {% else %}
+    <a class="pagination-previous" href="{{ paginator.next }}"">&#8594;</a>
+    {% endif %}
+  </nav>
 </div>
 {% endblock content %}
