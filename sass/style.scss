@@ -59,18 +59,15 @@ pre table {
     color: $red;
 }
 
+.blue {
+    color: $blue;
+}
+
 .navbar {
     padding: 1rem 1.25rem;
 }
 
-.navbar-brand a {
-    color: $black;
-    &:hover {
-        text-decoration: none;
-    }
-}
-
-a:hover:not(.navbar-item) {
+a:hover:not(.navbar-item):note(.navbar-brand a) {
     text-decoration: underline;
 }
 
