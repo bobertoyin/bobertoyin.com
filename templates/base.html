@@ -2,78 +2,80 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>
-    {{ config.title }}
-    {% if page.title %}
-      {% if page.ancestors.1 %}
+    <meta charset="utf-8">
+    <title>
+        {{ config.title }}
+        {% if page.title %}
+        {% if page.ancestors.1 %}
         {% set section = get_section(path=page.ancestors.1) %}
-         | {{ section.title }} - {{ page.title }}
-      {% else %}
-         | {{ page.title }}
-      {% endif %}
-    {% elif section.title %}
-     | {{ section.title }}
-    {% endif %}
-  </title>
-  {# see https://css-tricks.com/emoji-as-a-favicon for the emoji favicon info #}
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
-  <script src="{{ get_url(path='js/navburger.js') }}"></script>
-  <script src="https://kit.fontawesome.com/0a1b4c6046.js" crossorigin="anonymous"></script>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤠</text></svg>">
+        | {{ section.title }} - {{ page.title }}
+        {% else %}
+        | {{ page.title }}
+        {% endif %}
+        {% elif section.title %}
+        | {{ section.title }}
+        {% endif %}
+    </title>
+    {# see https://css-tricks.com/emoji-as-a-favicon for the emoji favicon info #}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+    <script src="{{ get_url(path='js/navburger.js') }}"></script>
+    <script src="https://kit.fontawesome.com/0a1b4c6046.js" crossorigin="anonymous"></script>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤠</text></svg>">
 </head>
 
 <header>
-  <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a href="{{ get_url(path='@/_index.md') }}">
-        <h1 class="is-size-3 has-text-weight-bold">
-          <span class="red">boberto</span><span class="blue">yin</span>
-        </h1>
-      </a>
-      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
+    <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a href="{{ get_url(path='@/_index.md') }}">
+                <h1 class="is-size-3 has-text-weight-bold">
+                    <span class="red">boberto</span><span class="blue">yin</span>
+                </h1>
+            </a>
+            <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
 
-    <div class="navbar-menu" id="navMenu">
-      <div class="navbar-end">
-        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/_index.md') }}">
-          Home
-        </a>
+        <div class="navbar-menu" id="navMenu">
+            <div class="navbar-end">
+                <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/_index.md') }}">
+                    Home
+                </a>
 
-        <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/blog/_index.md') }}">
-          Blog
-        </a>
+                <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/blog/_index.md') }}">
+                    Blog
+                </a>
 
-        <a class="navbar-item has-text-weight-semibold" href="https://photo.bobertoyin.com">
-          Photos
-        </a>
-      </div>
-    </div>
-  </nav>
+                <a class="navbar-item has-text-weight-semibold" href="https://photo.bobertoyin.com">
+                    Photos
+                </a>
+            </div>
+        </div>
+    </nav>
 </header>
 
 <body>
-  <section class="section p-5">
-    <div class="container">
-      {% block content %} {% endblock %}
-    </div>
-  </section>
+    <section class="section p-5">
+        <div class="container">
+            {% block content %} {% endblock %}
+        </div>
+    </section>
 </body>
 
 <footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      <code>v{{ config.extra.version }}</code>, now with more nonsense! 
-      <a href="https://github.com/bobertoyin/personal-site" target="_blank">Source code</a>
-       is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a> 
-      and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY NC SA 4.0</a>.
-    </p>
-  </div>
+    <div class="content has-text-centered">
+        <p>
+            <code>v{{ config.extra.version }}</code>, now with more nonsense!
+            <a href="https://github.com/bobertoyin/personal-site" target="_blank">Source code</a>
+            is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a>
+            and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+                target="_blank">CC BY NC SA 4.0</a>.
+        </p>
+    </div>
 </footer>
 
 </html>
