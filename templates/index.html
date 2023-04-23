@@ -2,11 +2,20 @@
 
 {% block content %}
 <div class="content">
-  <h1 class="title is-size-1 has-text-weight-bold">
-    {{ section.extra.name | safe }}
-  </h1>
-  <p class="subtitle is-size-4 is-italic">noun</p>
-  <p class="is-size-5">{{ section.extra.synopsis | safe }}</p>
+  <div class="columns">
+    <div class="column">
+      <figure class="image is-128x128 ml-0 mt-2">
+        <img id="profile-pic" src="{{ get_url(path=config.extra.profile) }}">
+      </figure>
+    </div>
+    <div class="column is-11">
+      <h1 class="title is-size-1 has-text-weight-bold">
+        {{ section.extra.name | safe }}
+      </h1>
+      <p class="subtitle is-size-4 is-italic">noun</p>
+      <p class="is-size-5">{{ section.extra.synopsis | safe }}</p>
+    </div>
+  </div>
   <hr>
   {{ section.content | safe }}
   <h2>Random Quote Generator</h2>
