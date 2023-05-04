@@ -12,8 +12,8 @@ external_links_target_blank = true
 smart_punctuation = true
 
 [extra]
-profile = "robert.jpeg"
-version = "2.6.0"
+profile = "robert.jpg"
+version = "2.7.0"
 email = "bobertoyin@gmail.com"
 github = "bobertoyin"
 linkedin = "boberto"
