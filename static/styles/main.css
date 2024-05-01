@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("/fonts/BerkeleyMono-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("/fonts/BerkeleyMono-Bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("/fonts/BerkeleyMono-Italic.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("/fonts/BerkeleyMono-BoldItalic.ttf");
+    font-weight: bold;
+    font-style: italic;
+}
+
+:root {
+    
+    --bulma-family-primary: "Berkeley Mono", monospace;
+    --bulma-radius: 0;
+}
+
+#brand-link {
+    color: inherit;
+}
+
+a:not(.navbar-item):hover {
+    text-decoration: underline;
+}

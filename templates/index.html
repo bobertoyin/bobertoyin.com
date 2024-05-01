@@ -1,35 +1,22 @@
 {% extends "base.html" %}
 
+{% block title %}home{% endblock title %}
+
 {% block content %}
 <div class="content">
   <div class="columns">
     <div class="column">
       <figure class="image is-128x128 ml-0 mr-1 mt-2">
-        <img id="profile-pic" src="{{ get_url(path=config.extra.profile) }}">
+        <img id="profile-pic" src="/static/robert.jpg">
       </figure>
     </div>
     <div class="column is-11">
       <h1 class="title is-size-1 has-text-weight-bold">
-        {{ section.extra.name | safe }}
+        bob·ert·o
       </h1>
       <p class="subtitle is-size-4 is-italic">noun</p>
-      <p class="is-size-5">{{ section.extra.synopsis | safe }}</p>
+      <p class="is-size-5">A portmanteau of the nicknames <strong>Bobert</strong> and <strong>Roberto</strong>.</p>
     </div>
-  </div>
-  <hr>
-  {{ section.content | safe }}
-  <h2>Random Quote Generator</h2>
-  <blockquote id="random-quote"><noscript>You don't have JavaScript enabled for this feature</noscript>...</blockquote>
-  <script src="{{ get_url(path='js/random_quote.js') }}"></script>
-  <div class="buttons">
-    <button class="button is-success is-outlined" onclick="generateRandomQuote()">
-      <span class="icon-text">
-        <span class="icon">
-          <i class="fa-solid fa-rotate"></i>
-        </span>
-        <span>Refresh</span>
-      </span>
-    </button>
   </div>
 </div>
 {% endblock content %}
