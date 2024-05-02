@@ -7,44 +7,57 @@ use axum::{
     routing::get,
     serve, Router,
 };
+use markdown::{to_html_with_options, CompileOptions, Options, ParseOptions};
 use tera::{Context, Tera};
-use tokio::net::TcpListener;
+use tokio::{fs::File, io::AsyncReadExt, net::TcpListener};
 use tower_http::services::ServeDir;
 
-struct TemplateError(tera::Error);
+enum AppError {
+    Template(tera::Error),
+    Io(std::io::Error),
+    Markdown(markdown::message::Message),
+}
 
-impl IntoResponse for TemplateError {
+impl IntoResponse for AppError {
     fn into_response(self) -> Response {
-        (StatusCode::INTERNAL_SERVER_ERROR, self.0.to_string()).into_response()
+        (StatusCode::INTERNAL_SERVER_ERROR, match self {
+            AppError::Template(e) => e.to_string(),
+            AppError::Io(e) => e.to_string(),
+            AppError::Markdown(e) => e.to_string(),
+        }).into_response()
+        
     }
 }
 
-impl From<tera::Error> for TemplateError {
+impl From<tera::Error> for AppError {
     fn from(value: tera::Error) -> Self {
-        Self(value)
+        Self::Template(value)
     }
 }
 
-async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, TemplateError> {
-    let mut context = Context::new();
-    context.insert("current_url", "/");
-    context.insert("job_searching", &false);
-    context.insert("location", "Madison, WI");
-    context.insert("work_title", "Software Developer");
-    context.insert("work_location", "Epic Systems");
-    context.insert("work_location_url", "https://epic.com");
-    context.insert("education", "BSCS");
-    context.insert("education_location", "Northeastern University");
-    context.insert("education_location_url", "https://northeastern.edu");
+impl From<std::io::Error> for AppError {
+    fn from(value: std::io::Error) -> Self {
+        Self::Io(value)
+    }
+}
 
-    context.insert("email", "bobertoyin@gmail.com");
-    context.insert("resume", "resume.pdf");
-    context.insert("github", "bobertoyin");
-    context.insert("linkedin", "boberto");
+impl From<markdown::message::Message> for AppError {
+    fn from(value: markdown::message::Message) -> Self {
+        Self::Markdown(value)
+    }
+}
+ 
+async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
+    let mut context = Context::new();
+    let mut content = String::new();
+    File::open("content/index.md").await?.read_to_string(&mut content).await?;
+    context.insert("current_url", "/");
+
+    context.insert("content", &to_html_with_options(&content, &Options { parse: ParseOptions::default(), compile: CompileOptions { allow_dangerous_html: true, ..Default::default()} })?);
     Ok(Html(tera.render("index.html", &context)?))
 }
 
-async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, TemplateError> {
+async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     context.insert("current_url", "/blog");
     Ok(Html(tera.render("blog.html", &context)?))
