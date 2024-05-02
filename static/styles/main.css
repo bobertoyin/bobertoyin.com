@@ -26,6 +26,7 @@
 
 :root {
     --bulma-family-primary: "Berkeley Mono", monospace;
+    --bulma-burger-border-radius: 0;
     --bulma-radius: 0;
     --bulma-body-font-size: 0.9em;
 }
