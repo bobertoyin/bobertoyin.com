@@ -44,11 +44,18 @@ async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, TemplateEr
     Ok(Html(tera.render("index.html", &context)?))
 }
 
+async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, TemplateError> {
+    let mut context = Context::new();
+    context.insert("current_url", "/blog");
+    Ok(Html(tera.render("blog.html", &context)?))
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let tera = Tera::new("templates/**/*.html")?;
     let app = Router::new()
         .route("/", get(index))
+        .route("/blog", get(blog))
         .with_state(Arc::new(tera))
         .nest_service("/static", ServeDir::new("static"));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;
