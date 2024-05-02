@@ -28,6 +28,19 @@ impl From<tera::Error> for TemplateError {
 async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, TemplateError> {
     let mut context = Context::new();
     context.insert("current_url", "/");
+    context.insert("job_searching", &false);
+    context.insert("location", "Madison, WI");
+    context.insert("work_title", "Software Developer");
+    context.insert("work_location", "Epic Systems");
+    context.insert("work_location_url", "https://epic.com");
+    context.insert("education", "BSCS");
+    context.insert("education_location", "Northeastern University");
+    context.insert("education_location_url", "https://northeastern.edu");
+
+    context.insert("email", "bobertoyin@gmail.com");
+    context.insert("resume", "resume.pdf");
+    context.insert("github", "bobertoyin");
+    context.insert("linkedin", "boberto");
     Ok(Html(tera.render("index.html", &context)?))
 }
 

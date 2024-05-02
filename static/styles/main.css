@@ -2,38 +2,59 @@
 
 @font-face {
     font-family: "Berkeley Mono";
-    src: url("/fonts/BerkeleyMono-Regular.ttf");
+    src: url("../fonts/BerkeleyMono-Regular.woff2") format("woff2");
 }
 
 @font-face {
     font-family: "Berkeley Mono";
-    src: url("/fonts/BerkeleyMono-Bold.ttf");
+    src: url("../fonts/BerkeleyMono-Bold.woff2") format("woff2");
     font-weight: bold;
 }
 
 @font-face {
     font-family: "Berkeley Mono";
-    src: url("/fonts/BerkeleyMono-Italic.ttf");
+    src: url("../fonts/BerkeleyMono-Italic.woff2") format("woff2");
     font-style: italic;
 }
 
 @font-face {
     font-family: "Berkeley Mono";
-    src: url("/fonts/BerkeleyMono-BoldItalic.ttf");
+    src: url("../fonts/BerkeleyMono-BoldItalic.woff2") format("woff2");
     font-weight: bold;
     font-style: italic;
 }
 
 :root {
-    
     --bulma-family-primary: "Berkeley Mono", monospace;
     --bulma-radius: 0;
+    --bulma-body-font-size: 0.9em;
 }
 
-#brand-link {
+#brand-link, .navbar-burger {
     color: inherit;
 }
 
 a:not(.navbar-item):hover {
     text-decoration: underline;
 }
+
+ul.icon-list {
+    list-style: none;
+}
+
+span.kwd {
+    color: var(--bulma-danger);
+}
+
+span.pln {
+    color: inherit;
+}
+
+span.pun {
+    color: var(--bulma-warning);
+}
+
+span.str {
+    color: var(--bulma-success);
+}
+ 
