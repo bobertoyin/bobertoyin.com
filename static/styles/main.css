@@ -34,6 +34,11 @@
     color: inherit;
 }
 
+#theme-toggle {
+    border: none;
+    box-shadow: none;
+}
+
 a:not(.navbar-item):hover {
     text-decoration: underline;
 }
