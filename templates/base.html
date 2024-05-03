@@ -40,13 +40,13 @@
                         <i id="theme-toggle-icon" class="ph-bold ph-sun"></i>
                     </span>
                 </button>
-                <a class="navbar-item {% if current_url == '/' %}has-text-success{% endif %}" href="/">
+                <a class="navbar-item {% if current_url and current_url == '/' %}has-text-success{% endif %}" href="/">
                     home
                 </a>
-                <a class="navbar-item {% if current_url == '/projects' %}has-text-success{% endif %}" href="/projects">
+                <a class="navbar-item {% if current_url and current_url == '/projects' %}has-text-success{% endif %}" href="/projects">
                     projects
                 </a>
-                <a class="navbar-item {% if current_url == '/blog' %}has-text-success{% endif %}" href="/blog">
+                <a class="navbar-item {% if current_url and current_url == '/blog' %}has-text-success{% endif %}" href="/blog">
                     blog
                 </a>
                 <a class="navbar-item" href="https://photo.bobertoyin.com">
@@ -72,6 +72,7 @@
             <a href="https://github.com/bobertoyin/bobertoyin.com" target="_blank">Source code</a>
             is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a>.
         </p>
+        <code><a href="/changelog">v{{ version }}</a></code>
     </div>
 </footer>
 

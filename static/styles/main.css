@@ -41,6 +41,10 @@
     box-shadow: none;
 }
 
+code a {
+    color: inherit;
+}
+
 a:not(.navbar-item):hover {
     text-decoration: underline;
 }
