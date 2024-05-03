@@ -40,13 +40,13 @@
                         <i id="theme-toggle-icon" class="ph-bold ph-sun"></i>
                     </span>
                 </button>
-                <a class="navbar-item {% if current_url and current_url == '/' %}has-text-success{% endif %}" href="/">
+                <a class="navbar-item {% if active and active == 'home' %}has-text-success{% endif %}" href="/">
                     home
                 </a>
-                <a class="navbar-item {% if current_url and current_url == '/projects' %}has-text-success{% endif %}" href="/projects">
+                <a class="navbar-item {% if active and active == 'projects' %}has-text-success{% endif %}" href="/projects">
                     projects
                 </a>
-                <a class="navbar-item {% if current_url and current_url == '/blog' %}has-text-success{% endif %}" href="/blog">
+                <a class="navbar-item {% if active and active == 'blog' %}has-text-success{% endif %}" href="/blog">
                     blog
                 </a>
                 <a class="navbar-item" href="https://photo.bobertoyin.com">

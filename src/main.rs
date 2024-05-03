@@ -79,7 +79,7 @@ async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> 
         .await?
         .read_to_string(&mut content)
         .await?;
-    context.insert("current_url", "/");
+    context.insert("active", "home");
 
     context.insert("content", &parse_markdown(&content)?);
     context.insert("basic_title", "home");
@@ -88,13 +88,13 @@ async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> 
 
 async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
-    context.insert("current_url", "/blog");
+    context.insert("active", "blog");
     Ok(Html(render_template(&tera, "blog.html", &mut context)?))
 }
 
 async fn projects(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
-    context.insert("current_url", "/projects");
+    context.insert("active", "projects");
     Ok(Html(render_template(&tera, "projects.html", &mut context)?))
 }
 
