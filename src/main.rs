@@ -7,7 +7,7 @@ use axum::{
     routing::get,
     serve, Router,
 };
-use markdown::{to_html_with_options, CompileOptions, Options, ParseOptions};
+use markdown::{message::Message, to_html_with_options, CompileOptions, Options, ParseOptions};
 use tera::{Context, Tera};
 use tokio::{fs::File, io::AsyncReadExt, net::TcpListener};
 use tower_http::services::ServeDir;
@@ -41,10 +41,16 @@ impl From<std::io::Error> for AppError {
     }
 }
 
-impl From<markdown::message::Message> for AppError {
-    fn from(value: markdown::message::Message) -> Self {
+impl From<Message> for AppError {
+    fn from(value: Message) -> Self {
         Self::Markdown(value)
     }
+}
+
+fn parse_markdown(content: &str) -> Result<String, Message> {
+    // annoying that we have to allocate the Options every time
+    // but currently Options is not Send/Sync: https://github.com/wooorm/markdown-rs/issues/104
+    to_html_with_options(content, &Options { compile: CompileOptions { allow_dangerous_html: true, ..Default::default()}, ..Default::default() })
 }
  
 async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
@@ -53,7 +59,7 @@ async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> 
     File::open("content/index.md").await?.read_to_string(&mut content).await?;
     context.insert("current_url", "/");
 
-    context.insert("content", &to_html_with_options(&content, &Options { parse: ParseOptions::default(), compile: CompileOptions { allow_dangerous_html: true, ..Default::default()} })?);
+    context.insert("content", &parse_markdown(&content)?);
     Ok(Html(tera.render("index.html", &context)?))
 }
 
