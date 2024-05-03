@@ -71,19 +71,19 @@ I'm not currently looking for job opportunities, but still feel free to reach ou
 
 > Does anyone actually call you Boberto?
 
-Nope. Bobert and Roberto are historical nicknames that a few people have used, but Boberto was more a product of internet username neccessity than anything else.
+Nope. A few folks have used Bobert and Roberto, but I generally go by Robert. Boberto is just for online accounts and usernames.
 
 > Favorite programming language?
 
 Obligatory "there is no best language, just choose the right language for the job" statement here.
 
-```prettyprint
+```python
 def programming() -> str:
     "I enjoy partaking in a little Python and tomfoolery"
 ```
 
-```prettyprint
-fn programming() -> Result<&'static str, Box<dyn Error>> {
+```rust
+fn programming() -> Result<'static str, Box<dyn Error>> {
     Ok("I enjoy partaking in a little Rust and tomfoolery")
 }
 ```

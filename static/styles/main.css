@@ -52,23 +52,23 @@ ul.icon-list {
     list-style: none;
 }
 
-span.typ {
-    color: var(--bulma-info);
+.hljs-type {
+    color: var(--bulma-primary);
 }
 
-span.kwd {
+.hljs-keyword, .hljs-built_in {
     color: var(--bulma-danger);
 }
 
-span.pln {
-    color: inherit;
-}
-
-span.pun {
+.hljs-punctuation {
     color: var(--bulma-warning);
 }
 
-span.str {
+.hljs-string {
     color: var(--bulma-success);
+}
+
+.hljs-symbol {
+    color: var(--bulma-link);
 }
  
