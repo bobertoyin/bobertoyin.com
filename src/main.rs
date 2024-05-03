@@ -7,7 +7,7 @@ use axum::{
     routing::get,
     serve, Router,
 };
-use markdown::{message::Message, to_html_with_options, CompileOptions, Options, ParseOptions};
+use markdown::{message::Message, to_html_with_options, CompileOptions, Options};
 use tera::{Context, Tera};
 use tokio::{fs::File, io::AsyncReadExt, net::TcpListener};
 use tower_http::services::ServeDir;
@@ -20,12 +20,15 @@ enum AppError {
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
-        (StatusCode::INTERNAL_SERVER_ERROR, match self {
-            AppError::Template(e) => e.to_string(),
-            AppError::Io(e) => e.to_string(),
-            AppError::Markdown(e) => e.to_string(),
-        }).into_response()
-        
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            match self {
+                AppError::Template(e) => e.to_string(),
+                AppError::Io(e) => e.to_string(),
+                AppError::Markdown(e) => e.to_string(),
+            },
+        )
+            .into_response()
     }
 }
 
@@ -50,13 +53,25 @@ impl From<Message> for AppError {
 fn parse_markdown(content: &str) -> Result<String, Message> {
     // annoying that we have to allocate the Options every time
     // but currently Options is not Send/Sync: https://github.com/wooorm/markdown-rs/issues/104
-    to_html_with_options(content, &Options { compile: CompileOptions { allow_dangerous_html: true, ..Default::default()}, ..Default::default() })
+    to_html_with_options(
+        content,
+        &Options {
+            compile: CompileOptions {
+                allow_dangerous_html: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
 }
- 
+
 async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut content = String::new();
-    File::open("content/index.md").await?.read_to_string(&mut content).await?;
+    File::open("content/index.md")
+        .await?
+        .read_to_string(&mut content)
+        .await?;
     context.insert("current_url", "/");
 
     context.insert("content", &parse_markdown(&content)?);
