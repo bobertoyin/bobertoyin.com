@@ -52,6 +52,10 @@ ul.icon-list {
     list-style: none;
 }
 
+span.typ {
+    color: var(--bulma-info);
+}
+
 span.kwd {
     color: var(--bulma-danger);
 }

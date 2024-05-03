@@ -77,9 +77,16 @@ Nope. Bobert and Roberto are historical nicknames that a few people have used, b
 
 Obligatory "there is no best language, just choose the right language for the job" statement here.
 
-<pre><code class="prettyprint language-python">for language in ["python", "rust"]:
-    print(f"I partake in a little bit of {language} and tomfoolery in my spare time")
-</code></pre>
+```prettyprint
+def programming() -> str:
+    "I enjoy partaking in a little Python and tomfoolery"
+```
+
+```prettyprint
+fn programming() -> Result<&'static str, Box<dyn Error>> {
+    Ok("I enjoy partaking in a little Rust and tomfoolery")
+}
+```
 
 [Emojicode](https://emojicode.org) truthers rise up!
 
