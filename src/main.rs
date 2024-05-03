@@ -84,12 +84,19 @@ async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     Ok(Html(tera.render("blog.html", &context)?))
 }
 
+async fn projects(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
+    let mut context = Context::new();
+    context.insert("current_url", "/projects");
+    Ok(Html(tera.render("projects.html", &context)?))
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let tera = Tera::new("templates/**/*.html")?;
     let app = Router::new()
         .route("/", get(index))
         .route("/blog", get(blog))
+        .route("/projects", get(projects))
         .with_state(Arc::new(tera))
         .nest_service("/static", ServeDir::new("static"));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;

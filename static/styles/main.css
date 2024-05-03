@@ -25,7 +25,8 @@
 }
 
 :root {
-    --bulma-family-primary: "Berkeley Mono", monospace;
+    --bulma-family-code: "Berkeley Mono", monospace;
+    --bulma-family-primary: var(--bulma-family-code);
     --bulma-burger-border-radius: 0;
     --bulma-radius: 0;
     --bulma-body-font-size: 0.9em;
@@ -69,6 +70,6 @@ ul.icon-list {
 }
 
 .hljs-symbol {
-    color: var(--bulma-link);
+    color: var(--bulma-info);
 }
  
