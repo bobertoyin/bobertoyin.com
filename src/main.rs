@@ -1,7 +1,7 @@
 use std::{error::Error, sync::Arc};
 
 use axum::{
-    extract::State,
+    extract::{Path, State},
     http::StatusCode,
     response::{Html, IntoResponse, Response},
     routing::get,
@@ -66,8 +66,8 @@ impl From<Message> for AppError {
 #[derive(Serialize, Deserialize)]
 struct BlogInfo {
     title: String,
-    slug: String,
     date: NaiveDate,
+    slug: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -88,6 +88,7 @@ fn parse_markdown(content: &str) -> Result<String, Message> {
             parse: ParseOptions {
                 constructs: Constructs {
                     frontmatter: true,
+                    gfm_table: true,
                     ..Default::default()
                 },
                 ..Default::default()
@@ -143,6 +144,30 @@ async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     Ok(Html(render_template(&tera, "blog.html", &mut context)?))
 }
 
+async fn blog_post(
+    State(tera): State<Arc<Tera>>,
+    Path(slug): Path<String>,
+) -> Result<Html<String>, AppError> {
+    let file_path = format!("content/blog/{}.md", slug);
+    let mut context = Context::new();
+    let mut content = String::new();
+    File::open(&file_path)
+        .await?
+        .read_to_string(&mut content)
+        .await?;
+    let frontmatter = Matter::<TOML>::new()
+        .parse_with_struct::<BlogInfo>(&content)
+        .ok_or(AppError::Frontmatter(file_path))?
+        .data;
+    context.insert("post", &frontmatter);
+    context.insert("content", &parse_markdown(&content)?);
+    Ok(Html(render_template(
+        &tera,
+        "blog_post.html",
+        &mut context,
+    )?))
+}
+
 async fn projects(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     context.insert("active", "projects");
@@ -171,6 +196,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let app = Router::new()
         .route("/", get(index))
         .route("/blog", get(blog))
+        .route("/blog/:slug", get(blog_post))
         .route("/projects", get(projects))
         .route("/changelog", get(changelog))
         .with_state(Arc::new(tera))

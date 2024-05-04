@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock title %}
+
+{% block content %}
+<div class="content blog-post">
+    <p>
+        <span class="icon-text is-flex-wrap-nowrap">
+            <span class="icon"><i class="ph-bold ph-arrow-left"></i></span>
+            <span><a href="/blog">Blog</a></span>
+        </span>
+    </p>
+    <h1>{{ post.title }}</h1>
+    <p>
+        <span class="icon-text is-flex-wrap-nowrap">
+            <span class="icon"><i class="ph-bold ph-calendar-dots"></i></span>
+            <span>{{ post.date }}</span>
+        </span>
+    </p>
+    <hr>
+    {{ content | safe }}
+    <p>
+        <span class="icon-text is-flex-wrap-nowrap">
+            <span class="icon"><i class="ph-bold ph-arrow-left"></i></span>
+            <span><a href="/blog">Blog</a></span>
+        </span>
+    </p>
+</div>
+{% endblock content %}

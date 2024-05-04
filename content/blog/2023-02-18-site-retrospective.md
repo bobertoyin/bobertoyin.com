@@ -1,14 +1,12 @@
 ---
 title = "Personal Site Retrospective"
 date = 2023-02-18
-slug = "personal-site-retrospective"
+slug = "2023-02-18-site-retrospective"
 ---
 
 All personal sites before the age of 18 are subject to aging like milk. *Unfortunately, so are some of the ones that come after the age of 18.*
 
 As a sort of coronation for this version of my personal site, I figured it'd be fun to look back at previous iterations of my personal site. However, these "previous iterations" aren't the pre-`v2.0.0` verions of this site, but rather sites that looked radically different, contained drastically different content, and were hosted on different platforms with different URLs. Let the viewing and cringing commence!
-
-<!-- more -->
 
 *Note: the use of "College Era" throughout this post very well might be a misnomer: there's no guarantee that I avoid graduate school for the rest of my life.*
 
@@ -20,15 +18,17 @@ But once I opened it, I kind of wished it had stayed deleted for all eternity.
 
 ### The Bad
 
-I know that critiques typically start with what the body of work does well, but I would honestly feel better getting what didn't work out of the way before talking about what did work. 
+I know that critiques typically start with what the body of work does well, but I would honestly feel better getting what didn't work out of the way before talking about what did work.
 
 To start, some of the visual design decisions are poorly executed and one-dimensional, regardless if they were intentional or not. Raleway, the font the site uses for all of the text, is noted as a good display font but [isn't as good for text](https://www.reddit.com/r/graphic_design/comments/2x9vme/comment/coyhhlc/?utm_source=share&utm_medium=web2x&context=3). The footer text is lazily placed in the bottom-right of the footer with no spacing around it, and says nothing more than "Designed By Robert Yin."
 
-{{ image(alt='An Underwhelming Footer', img='footer.png', caption='What an underwhelming footer.') }}
+![An Underwhelming Footer](/static/assets/blog/2023_02_18_site_retro/footer.png)
+<small>What an underwhelming footer.</small>
 
 There were also some design choices that didn't seem to have any reasonable justification: why are some of the body headers unselectable by the cursor, and why is the rest of the text purple on no background color when selected? Was I intentionally prioritizing mediocre aesthetics over accessibility? Any why did I choose the color purple when it clearly doesn't mesh with the background image and is only ever reinforced by the logo in the header?
 
-{{ image(alt='Poorly Designed Text Selection', img='text-selection.gif', caption='Good luck trying to copy and paste any of my headers.') }}
+![Poorly Designed Text Selection](/static/assets/blog/2023_02_18_site_retro/text-selection.gif)
+<small>Good luck trying to copy and paste any of my headers.</small>
 
 Lastly, some of the content on this site clearly has my tenth-grade name on it because it comes off as incredibly unhelpful and awkward to read. The synopsis, for example, was an extreme exaggeration of my relationship with food at the time and just wasn't appropriate to put on the Home page:
 
@@ -40,17 +40,19 @@ And as much as I love my siblings, this quote probably shouldn't have been on th
 >
 > Rebecca Yin, Robert's Youngest Sister
 
-Even the professional information came off weird: did I really need to format my JavaScript knowledge as "JavaScript (Rudimentary)" or to try and flex my "all expense paid trip to Silicon Valley?" 
+Even the professional information came off weird: did I really need to format my JavaScript knowledge as "JavaScript (Rudimentary)" or to try and flex my "all expense paid trip to Silicon Valley?"
 
-{{ image(alt='Poorly Written Skills Section', img='skills.png', caption='There is a sweet, misguided charm to expressing my SQL knowledge as "SQL/phpMyAdmin."') }}
+![Poorly Written Skills Section](/static/assets/blog/2023_02_18_site_retro/skills.png)
+<small>There is a sweet, misguided charm to expressing my SQL knowledge as "SQL/phpMyAdmin."</small>
 
-There's so much more bad meat for me to sink my teeth into on this site, but I'm willing to call it a day for this portion of the critique and blame it all on "inexperience," even if it doesn't actually apply (I'm looking at you, navigation menu and image lightbox scripts that were blatanly copied from StackOverflow, W3Schools, or some other resource for novice web developers). 
+There's so much more bad meat for me to sink my teeth into on this site, but I'm willing to call it a day for this portion of the critique and blame it all on "inexperience," even if it doesn't actually apply (I'm looking at you, navigation menu and image lightbox scripts that were blatanly copied from StackOverflow, W3Schools, or some other resource for novice web developers).
 
 ### The Good
 
-Most of the nice things about this site revolve around being the "right idea," which is to say that despite the flaws there is good intent behind them all. 
+Most of the nice things about this site revolve around being the "right idea," which is to say that despite the flaws there is good intent behind them all.
 
-{{ image(alt='First Ever Logo', img='logo.svg', caption='There wasn&#x27;t any real reason to use a lightning bolt and gears in this purple logo, but it looks pretty sick.') }}
+![First Ever Logo](/static/assets/blog/2023_02_18_site_retro/logo.svg)
+<small>There wasn't any real reason to use a lightning bolt and gears in this purple logo, but it looks pretty sick.</small>
 
 As I've progressed through college and experienced some of the corporate life that comes with software engineering, I've appreciated keeping non-technical and creative endeavors close to me. Past me seems to agree:
 
@@ -62,7 +64,8 @@ The mission statement is quite wholesome and makes me jealous of how hopeful I u
 
 Ultimately, there's a lot on this site that reminds me that software and the web hasn't always been bleak and marred by the messes of adult life: sometimes it can be fun and simple.
 
-{{ image(alt='Golden Gate Bridge in San Francisco', img='goldengatebridge.png', caption='Seeing this image of the Golden Gate Bridge always reminds me of how I got started with computer science in the first place.') }}
+![Golden Gate Bridge in San Francisco](/static/assets/blog/2023_02_18_site_retro/goldengatebridge.png)
+<small>Seeing this image of the Golden Gate Bridge always reminds me of how I got started with computer science in the first place.</small>
 
 ## Improvement in the CE (College Era)
 
@@ -72,7 +75,8 @@ This is where the journey back in time gets tricky. I had many iterations of sit
 
 The design and formatting of the site is more consistent and multi-dimensional: there's a color scheme that isn't too bad to look at, [Liquid](https://shopify.github.io/liquid) templating means that HTML elements are used more consistently, and there's a healthy usage of emojis wherever applicable!
 
-{{ image(alt='Emojis with HTML Lists', img='emojis.png', caption='Maybe emojis aren&#x27;t actually a critical design choice, but they sure are fun.') }}
+![Emojis with HTML Lists](/static/assets/blog/2023_02_18_site_retro/emojis.png)
+<small>Maybe emojis aren't actually a critical design choice, but they sure are fun.</small>
 
 I also think this website still gives off a relatively youthful and spry energy that isn't too far off from the high school site, but is a little more reserved and mature.
 
@@ -82,7 +86,8 @@ One issue that this site has is the number of unnecessary pages in the navigatio
 
 This next issue is a bit of a nitpick, but the site doesn't handle responsiveness all that well. This could've easily been remedied by picking up a CSS framework that could automatically handle responsiveness. TLDR; don't let non-frontend developers write too much CSS by hand.
 
-{{ image(alt='Not Perfect Responsiveness', img='imperfectresponsiveness.png', caption='Sure, it&#x27;s not bad, but it&#x27;s not great either.') }}
+![Not Perfect Responsiveness](/static/assets/blog/2023_02_18_site_retro/imperfectresponsiveness.png)
+<small>Sure, it's not bad, but it's not great either.</small>
 
 Lastly, I don't love the idea of making the homepage a glorified copy of my resume, which is exactly what I did for this site. Although trying to showcase your work and abilities isn't a bad thing, it makes more sense to highlight content that can't fit on a resume (e.g., blog posts!).
 

@@ -45,6 +45,10 @@ code a {
     color: inherit;
 }
 
+.blog-post img {
+    display: block;
+}
+
 a:not(.navbar-item):hover {
     text-decoration: underline;
 }

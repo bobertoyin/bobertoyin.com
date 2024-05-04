@@ -1,5 +1,5 @@
 ---
-title = "Changelog"
+title = "Change Log"
 ---
 
 # Change Log
