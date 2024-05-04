@@ -7,9 +7,18 @@ use axum::{
     routing::get,
     serve, Router,
 };
-use markdown::{message::Message, to_html_with_options, CompileOptions, Options};
+use chrono::NaiveDate;
+use gray_matter::{engine::TOML, Matter};
+use markdown::{
+    message::Message, to_html_with_options, CompileOptions, Constructs, Options, ParseOptions,
+};
+use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
-use tokio::{fs::File, io::AsyncReadExt, net::TcpListener};
+use tokio::{
+    fs::{read_dir, File},
+    io::AsyncReadExt,
+    net::TcpListener,
+};
 use tower_http::services::ServeDir;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -17,7 +26,8 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 enum AppError {
     Template(tera::Error),
     Io(std::io::Error),
-    Markdown(markdown::message::Message),
+    Markdown(Message),
+    Frontmatter(String),
 }
 
 impl IntoResponse for AppError {
@@ -25,9 +35,10 @@ impl IntoResponse for AppError {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
             match self {
-                AppError::Template(e) => e.to_string(),
-                AppError::Io(e) => e.to_string(),
-                AppError::Markdown(e) => e.to_string(),
+                Self::Template(e) => e.to_string(),
+                Self::Io(e) => e.to_string(),
+                Self::Markdown(e) => e.to_string(),
+                Self::Frontmatter(e) => format!("failed to parse frontmatter for {}", e),
             },
         )
             .into_response()
@@ -52,6 +63,18 @@ impl From<Message> for AppError {
     }
 }
 
+#[derive(Serialize, Deserialize)]
+struct BlogInfo {
+    title: String,
+    slug: String,
+    date: NaiveDate,
+}
+
+#[derive(Serialize, Deserialize)]
+struct PageInfo {
+    title: String,
+}
+
 fn parse_markdown(content: &str) -> Result<String, Message> {
     // annoying that we have to allocate the Options every time
     // but currently Options is not Send/Sync: https://github.com/wooorm/markdown-rs/issues/104
@@ -62,7 +85,13 @@ fn parse_markdown(content: &str) -> Result<String, Message> {
                 allow_dangerous_html: true,
                 ..Default::default()
             },
-            ..Default::default()
+            parse: ParseOptions {
+                constructs: Constructs {
+                    frontmatter: true,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
         },
     )
 }
@@ -79,16 +108,38 @@ async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> 
         .await?
         .read_to_string(&mut content)
         .await?;
-    context.insert("active", "home");
-
+    let frontmatter = Matter::<TOML>::new()
+        .parse_with_struct::<PageInfo>(&content)
+        .ok_or(AppError::Frontmatter("content/index.md".to_string()))?
+        .data;
+    context.insert("title", &frontmatter.title);
+    context.insert("active", &frontmatter.title.to_lowercase());
     context.insert("content", &parse_markdown(&content)?);
-    context.insert("basic_title", "home");
     Ok(Html(render_template(&tera, "basic.html", &mut context)?))
 }
 
 async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
+    let mut folder = read_dir("content/blog").await?;
+    let mut posts = Vec::new();
+    while let Some(entry) = folder.next_entry().await? {
+        let mut content = String::new();
+        if entry.file_type().await?.is_file() {
+            let filename_lossy = entry.file_name().to_string_lossy().to_string();
+            File::open(entry.path())
+                .await?
+                .read_to_string(&mut content)
+                .await?;
+            let frontmatter = Matter::<TOML>::new()
+                .parse_with_struct::<BlogInfo>(&content)
+                .ok_or(AppError::Frontmatter(filename_lossy))?
+                .data;
+            posts.push(frontmatter);
+        }
+    }
+    posts.reverse();
     context.insert("active", "blog");
+    context.insert("posts", &posts);
     Ok(Html(render_template(&tera, "blog.html", &mut context)?))
 }
 
@@ -105,9 +156,12 @@ async fn changelog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppErr
         .await?
         .read_to_string(&mut content)
         .await?;
-
+    let frontmatter = Matter::<TOML>::new()
+        .parse_with_struct::<PageInfo>(&content)
+        .ok_or(AppError::Frontmatter("content/changelog.md".to_string()))?
+        .data;
+    context.insert("title", &frontmatter.title);
     context.insert("content", &parse_markdown(&content)?);
-    context.insert("basic_title", "changelog");
     Ok(Html(render_template(&tera, "basic.html", &mut context)?))
 }
 

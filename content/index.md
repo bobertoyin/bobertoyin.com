@@ -1,7 +1,11 @@
+---
+title = "Home"
+---
+
 <div class="columns">
     <div class="column">
         <figure class="image is-128x128">
-            <img id="profile-pic" src="/static/robert.jpg">
+            <img id="profile-pic" src="/static/assets/robert.jpg">
         </figure>
     </div>
     <div class="column is-11">
@@ -50,7 +54,7 @@ I'm not currently looking for job opportunities, but still feel free to reach ou
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon has-text-success"><i class="ph-bold ph-read-cv-logo"></i></span>
-            <span><a href="/static/resume.pdf" target="_blank">resume.pdf</a></span>
+            <span><a href="/static/assets/resume.pdf" target="_blank">resume.pdf</a></span>
         </span>
     </li>
     <li>

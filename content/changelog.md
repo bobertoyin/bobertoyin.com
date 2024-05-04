@@ -1,3 +1,7 @@
+---
+title = "Changelog"
+---
+
 # Change Log
 
 ## `v3.0.0`
