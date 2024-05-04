@@ -163,7 +163,7 @@ async fn blog_post(
     context.insert("content", &parse_markdown(&content)?);
     Ok(Html(render_template(
         &tera,
-        "blog_post.html",
+        "blog-post.html",
         &mut context,
     )?))
 }
