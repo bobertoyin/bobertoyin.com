@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Blog{% endblock title %}
+
+{% block content %}
+<div class="content">
+    <h1>Blog Posts</h1>
+    <hr>
+    {% for post in posts %}
+        <div class="mb-4">
+            <h3>{{ post.title }}</h3>
+            <p>
+                <span class="icon-text is-flex-wrap-nowrap">
+                    <span class="icon"><i class="ph-bold ph-calendar-dots"></i></span>
+                    <span>{{ post.date }}</span>
+                </span>
+            </p>
+            <a href="/blog/{{ post.slug }}">Read Here</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

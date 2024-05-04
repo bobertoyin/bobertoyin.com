@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("../fonts/BerkeleyMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("../fonts/BerkeleyMono-Bold.woff2") format("woff2");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("../fonts/BerkeleyMono-Italic.woff2") format("woff2");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Berkeley Mono";
+    src: url("../fonts/BerkeleyMono-BoldItalic.woff2") format("woff2");
+    font-weight: bold;
+    font-style: italic;
+}
+
+:root {
+    --bulma-family-code: "Berkeley Mono", monospace;
+    --bulma-family-primary: var(--bulma-family-code);
+    --bulma-burger-border-radius: 0;
+    --bulma-radius: 0;
+    --bulma-body-font-size: 0.9em;
+}
+
+#brand-link, .navbar-burger {
+    color: inherit;
+}
+
+#theme-toggle {
+    border: none;
+    box-shadow: none;
+}
+
+code a {
+    color: inherit;
+}
+
+.blog-post img {
+    display: block;
+}
+
+a:not(.navbar-item):hover {
+    text-decoration: underline;
+}
+
+.navbar-menu {
+    box-shadow: none;
+}
+
+ul.icon-list {
+    list-style: none;
+}
+
+.hljs-type {
+    color: var(--bulma-primary);
+}
+
+.hljs-keyword, .hljs-built_in {
+    color: var(--bulma-danger);
+}
+
+.hljs-punctuation {
+    color: var(--bulma-warning);
+}
+
+.hljs-string {
+    color: var(--bulma-success);
+}
+
+.hljs-symbol {
+    color: var(--bulma-info);
+}
+ 

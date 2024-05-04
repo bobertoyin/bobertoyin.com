@@ -1,57 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-navbar-fixed-top">
 
 <head>
     <meta charset="utf-8">
     <title>
-        {{ config.title }}
-        {% if page.title %}
-        {% if page.ancestors.1 %}
-        {% set section = get_section(path=page.ancestors.1) %}
-        | {{ section.title }} - {{ page.title }}
-        {% else %}
-        | {{ page.title }}
-        {% endif %}
-        {% elif section.title %}
-        | {{ section.title }}
-        {% endif %}
+        {% block title %}{% endblock title %} - Robert Yin
     </title>
-    {# see https://css-tricks.com/emoji-as-a-favicon for the emoji favicon info #}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
-    <script src="{{ get_url(path='js/navburger.js') }}"></script>
-    <script src="https://kit.fontawesome.com/0a1b4c6046.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/static/js/navburger.js"></script>
+    <script src="/static/js/init-theme.js"></script>
+    <script src="/static/js/toggle-theme.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤠</text></svg>">
 </head>
 
 <header>
-    <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+    <nav class="navbar has-shadow is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a href="{{ get_url(path='@/_index.md') }}">
-                <h1 class="is-size-3 has-text-weight-bold">
-                    <span class="red">boberto</span><span class="blue">yin</span>
+            <div class="navbar-item">
+                <h1 class="is-size-4 has-text-weight-bold">
+                    <a href="/" id="brand-link">://bobertoyin</a>
                 </h1>
-            </a>
-            <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+            </div>
+            <a role="button" class="navbar-burger" data-target="nav-menu" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
-
-        <div class="navbar-menu" id="navMenu">
+        <div class="navbar-menu" id="nav-menu">
             <div class="navbar-end">
-                <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/_index.md') }}">
-                    Home
+                <button onclick="toggleTheme()" id="theme-toggle" class="navbar-item button">
+                    <span class="icon">
+                        <i id="theme-toggle-icon" class="ph-bold ph-sun"></i>
+                    </span>
+                </button>
+                <a class="navbar-item {% if active and active == 'home' %}has-text-success{% endif %}" href="/">
+                    home
                 </a>
-
-                <a class="navbar-item has-text-weight-semibold" href="{{ get_url(path='@/blog/_index.md') }}">
-                    Blog
+                <a class="navbar-item {% if active and active == 'projects' %}has-text-success{% endif %}" href="/projects">
+                    projects
                 </a>
-
-                <a class="navbar-item has-text-weight-semibold" href="https://photo.bobertoyin.com">
-                    Photos
+                <a class="navbar-item {% if active and active == 'blog' %}has-text-success{% endif %}" href="/blog">
+                    blog
+                </a>
+                <a class="navbar-item" href="https://photo.bobertoyin.com">
+                    photos
                 </a>
             </div>
         </div>
@@ -59,9 +58,9 @@
 </header>
 
 <body>
-    <section class="section p-5">
+    <section class="section p-5 mb-5">
         <div class="container">
-            {% block content %} {% endblock %}
+            {% block content %} {% endblock content %}
         </div>
     </section>
 </body>
@@ -69,13 +68,14 @@
 <footer class="footer">
     <div class="content has-text-centered">
         <p>
-            <code>v{{ config.extra.version }}</code>, now with more nonsense!
-            <a href="https://github.com/bobertoyin/personal-site" target="_blank">Source code</a>
-            is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a>
-            and content is licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-                target="_blank">CC BY NC SA 4.0</a>.
+            Now with more nonsense!
+            <a href="https://github.com/bobertoyin/bobertoyin.com" target="_blank">Source code</a>
+            is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a>.
         </p>
+        <code><a href="/changelog">v{{ version }}</a></code>
     </div>
 </footer>
+
+<script>hljs.highlightAll();</script>
 
 </html>
