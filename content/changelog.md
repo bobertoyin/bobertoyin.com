@@ -6,6 +6,11 @@ title = "Change Log"
 
 ---
 
+## `v3.1.0`
+
+- Added currently/last listened to song via [Last.fm client](https://docs.rs/lastfm/latest/lastfm/index.html)
+- Added header divider to `changelog` page
+
 ## `v3.0.0`
 
 - Migrated from a static site generator ([Zola](https://www.getzola.org)) to a web server framework ([Axum](https://crates.io/crates/axum) + [Tera](https://keats.github.io/tera))
