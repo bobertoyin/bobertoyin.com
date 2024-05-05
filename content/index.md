@@ -12,6 +12,32 @@ title = "Home"
         <h1 class="title has-text-weight-bold">bob·ert·o</h1>
         <p class="subtitle is-italic">noun</p>
         <p>A portmanteau of the nicknames <strong>Bobert</strong> and <strong>Roberto</strong>.</p>
+        <p
+            hx-get="/currently_playing"
+            hx-indicator="#indicator"
+            hx-trigger="load"
+            hx-target="#track"
+            hx-swap="outerHTML"
+            hx-on::before-request="resetTrack()"
+            hx-on::after-request="resetReloadButton()">
+            <span class="icon-text is-flex-wrap-nowrap">
+                <span class="icon"><i class="ph-bold ph-equalizer"></i></span>
+                <span id="indicator" class="htmx-indicator">...</span>
+                <span id="track"></span>
+                <span
+                    id="reload"
+                    hx-get="/currently_playing"
+                    hx-indicator="#indicator"
+                    hx-trigger="click"
+                    hx-target="#track"
+                    hx-swap="outerHTML"
+                    hx-on::before-request="resetTrack()"
+                    hx-on::after-request="resetReloadButton()"
+                    class="icon">
+                    <i class="ph-bold ph-arrows-clockwise"></i>
+                </span>
+            </span>
+        </p>
     </div>
 </div>
 

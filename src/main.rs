@@ -9,6 +9,7 @@ use axum::{
 };
 use chrono::NaiveDate;
 use gray_matter::{engine::TOML, Matter};
+use lastfm::Client;
 use markdown::{
     message::Message, to_html_with_options, CompileOptions, Constructs, Options, ParseOptions,
 };
@@ -23,11 +24,17 @@ use tower_http::services::ServeDir;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
+struct SharedState {
+    tera: Tera,
+    lastfm: Client<String, String>,
+}
+
 enum AppError {
     Template(tera::Error),
     Io(std::io::Error),
     Markdown(Message),
     Frontmatter(String),
+    LastFm(lastfm::errors::Error),
 }
 
 impl IntoResponse for AppError {
@@ -39,6 +46,7 @@ impl IntoResponse for AppError {
                 Self::Io(e) => e.to_string(),
                 Self::Markdown(e) => e.to_string(),
                 Self::Frontmatter(e) => format!("failed to parse frontmatter for {}", e),
+                Self::LastFm(e) => e.to_string(),
             },
         )
             .into_response()
@@ -60,6 +68,12 @@ impl From<std::io::Error> for AppError {
 impl From<Message> for AppError {
     fn from(value: Message) -> Self {
         Self::Markdown(value)
+    }
+}
+
+impl From<lastfm::errors::Error> for AppError {
+    fn from(value: lastfm::errors::Error) -> Self {
+        Self::LastFm(value)
     }
 }
 
@@ -102,7 +116,7 @@ fn render_template(tera: &Tera, name: &str, context: &mut Context) -> Result<Str
     tera.render(name, context)
 }
 
-async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
+async fn index(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut content = String::new();
     File::open("content/index.md")
@@ -116,10 +130,14 @@ async fn index(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> 
     context.insert("title", &frontmatter.title);
     context.insert("active", &frontmatter.title.to_lowercase());
     context.insert("content", &parse_markdown(&content)?);
-    Ok(Html(render_template(&tera, "basic.html", &mut context)?))
+    Ok(Html(render_template(
+        &state.tera,
+        "basic.html",
+        &mut context,
+    )?))
 }
 
-async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
+async fn blog(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut folder = read_dir("content/blog").await?;
     let mut posts = Vec::new();
@@ -141,11 +159,15 @@ async fn blog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
     posts.reverse();
     context.insert("active", "blog");
     context.insert("posts", &posts);
-    Ok(Html(render_template(&tera, "blog.html", &mut context)?))
+    Ok(Html(render_template(
+        &state.tera,
+        "blog.html",
+        &mut context,
+    )?))
 }
 
 async fn blog_post(
-    State(tera): State<Arc<Tera>>,
+    State(state): State<Arc<SharedState>>,
     Path(slug): Path<String>,
 ) -> Result<Html<String>, AppError> {
     let file_path = format!("content/blog/{}.md", slug);
@@ -162,19 +184,23 @@ async fn blog_post(
     context.insert("post", &frontmatter);
     context.insert("content", &parse_markdown(&content)?);
     Ok(Html(render_template(
-        &tera,
+        &state.tera,
         "blog-post.html",
         &mut context,
     )?))
 }
 
-async fn projects(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
+async fn projects(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     context.insert("active", "projects");
-    Ok(Html(render_template(&tera, "projects.html", &mut context)?))
+    Ok(Html(render_template(
+        &state.tera,
+        "projects.html",
+        &mut context,
+    )?))
 }
 
-async fn changelog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppError> {
+async fn changelog(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut content = String::new();
     File::open("content/changelog.md")
@@ -187,19 +213,37 @@ async fn changelog(State(tera): State<Arc<Tera>>) -> Result<Html<String>, AppErr
         .data;
     context.insert("title", &frontmatter.title);
     context.insert("content", &parse_markdown(&content)?);
-    Ok(Html(render_template(&tera, "basic.html", &mut context)?))
+    Ok(Html(render_template(
+        &state.tera,
+        "basic.html",
+        &mut context,
+    )?))
+}
+
+async fn currently_playing(
+    State(state): State<Arc<SharedState>>,
+) -> Result<Html<String>, AppError> {
+    let mut context = Context::new();
+    let track = state.lastfm.now_playing().await?;
+    context.insert("track", &track);
+    match render_template(&state.tera, "currently-playing.html", &mut context) {
+        Ok(content) => Ok(Html(content)),
+        Err(e) => Ok(Html(format!("<span id=\"track\" class=\"has-text-danger\">{}</span>", e))),
+    }
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let tera = Tera::new("templates/**/*.html")?;
+    let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())?;
     let app = Router::new()
         .route("/", get(index))
         .route("/blog", get(blog))
         .route("/blog/:slug", get(blog_post))
         .route("/projects", get(projects))
         .route("/changelog", get(changelog))
-        .with_state(Arc::new(tera))
+        .route("/currently_playing", get(currently_playing))
+        .with_state(Arc::new(SharedState { tera, lastfm }))
         .nest_service("/static", ServeDir::new("static"));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;
     Ok(serve(listener, app).await?)
