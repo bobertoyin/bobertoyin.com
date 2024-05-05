@@ -4,6 +4,8 @@ title = "Change Log"
 
 # Change Log
 
+---
+
 ## `v3.0.0`
 
 - Migrated from a static site generator ([Zola](https://www.getzola.org)) to a web server framework ([Axum](https://crates.io/crates/axum) + [Tera](https://keats.github.io/tera))

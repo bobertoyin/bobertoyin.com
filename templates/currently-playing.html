@@ -1,0 +1,13 @@
+<span id="track">
+    {% if track %}
+        <a href="{{ track.url }}" target="_blank">{{ track.name }}</a> by <a href="{{ track.artist.url }}" target="_blank">{{ track.artist.name }}</a>
+        {% if track_time %}
+            - {{ track_time }}
+        {% endif %}
+    {% else %}
+        No music right now
+    {% endif %}
+    {% if tracks %}
+    {{ tracks | json_encode }}
+    {% endif %}
+</span>
