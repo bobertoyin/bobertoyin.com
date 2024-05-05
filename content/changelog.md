@@ -6,6 +6,10 @@ title = "Change Log"
 
 ---
 
+## `v3.1.1`
+
+- Add missing `openssl-dev` package to `Dockerfile`
+
 ## `v3.1.0`
 
 - Added currently/last listened to song via [Last.fm client](https://docs.rs/lastfm/latest/lastfm/index.html)
