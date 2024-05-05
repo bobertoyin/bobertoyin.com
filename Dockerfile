@@ -1,5 +1,5 @@
 FROM rust:alpine
-RUN apk add musl-dev
+RUN apk add musl-dev openssl-dev
 WORKDIR /site
 COPY . .
 RUN cargo build --release
