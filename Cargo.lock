@@ -189,6 +189,7 @@ version = "3.0.0"
 dependencies = [
  "axum",
  "chrono",
+ "futures-util",
  "gray_matter",
  "lastfm",
  "markdown",
@@ -881,9 +882,9 @@ dependencies = [
 
 [[package]]
 name = "lastfm"
-version = "0.8.1"
+version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aed1b6ed29669ba37e7a2a8a939b7e2ff456883f0eb71a173635fae0ddc1cb5b"
+checksum = "6e1c7d19b3dabcb2ccef2ffe389604248cdcbc063e3455e9079992e4ec336158"
 dependencies = [
  "async-stream",
  "chrono",
