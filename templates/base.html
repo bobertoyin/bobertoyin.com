@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="has-navbar-fixed-top">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -20,63 +20,63 @@
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤠</text></svg>">
 </head>
 
-<header>
-    <nav class="navbar has-shadow is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <div class="navbar-item">
-                <h1 class="is-size-4 has-text-weight-bold">
-                    <a href="/" id="brand-link">://bobertoyin</a>
-                </h1>
-            </div>
-            <a role="button" class="navbar-burger" data-target="nav-menu" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-        <div class="navbar-menu" id="nav-menu">
-            <div class="navbar-end">
-                <button onclick="toggleTheme()" id="theme-toggle" class="navbar-item button">
-                    <span class="icon">
-                        <i id="theme-toggle-icon" class="ph-bold ph-sun"></i>
-                    </span>
-                </button>
-                <a class="navbar-item {% if active and active == 'home' %}has-text-success{% endif %}" href="/">
-                    home
-                </a>
-                <a class="navbar-item {% if active and active == 'projects' %}has-text-success{% endif %}" href="/projects">
-                    projects
-                </a>
-                <a class="navbar-item {% if active and active == 'blog' %}has-text-success{% endif %}" href="/blog">
-                    blog
-                </a>
-                <a class="navbar-item" href="https://photo.bobertoyin.com">
-                    photos
+<body class="has-navbar-fixed-top">
+    <header>
+        <nav class="navbar has-shadow is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <div class="navbar-item">
+                    <h1 class="is-size-4 has-text-weight-bold">
+                        <a href="/" id="brand-link">://bobertoyin</a>
+                    </h1>
+                </div>
+                <a role="button" class="navbar-burger" data-target="nav-menu" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
             </div>
-        </div>
-    </nav>
-</header>
+            <div class="navbar-menu" id="nav-menu">
+                <div class="navbar-end">
+                    <button onclick="toggleTheme()" id="theme-toggle" class="navbar-item button">
+                        <span class="icon">
+                            <i id="theme-toggle-icon" class="ph-bold ph-sun"></i>
+                        </span>
+                    </button>
+                    <a class="navbar-item {% if active and active == 'home' %}has-text-success{% endif %}" href="/">
+                        home
+                    </a>
+                    <a class="navbar-item {% if active and active == 'projects' %}has-text-success{% endif %}" href="/projects">
+                        projects
+                    </a>
+                    <a class="navbar-item {% if active and active == 'blog' %}has-text-success{% endif %}" href="/blog">
+                        blog
+                    </a>
+                    <a class="navbar-item" href="https://photo.bobertoyin.com">
+                        photos
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<body>
-    <section class="section p-5 mb-5">
+    <section id="main-content" class="section p-5 mb-5">
         <div class="container">
             {% block content %} {% endblock content %}
         </div>
     </section>
-</body>
 
-<footer class="footer">
-    <div class="content has-text-centered">
-        <p>
-            Now with more nonsense!
-            <a href="https://github.com/bobertoyin/bobertoyin.com" target="_blank">Source code</a>
-            is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a>.
-        </p>
-        <code><a href="/changelog">v{{ version }}</a></code>
-    </div>
-</footer>
+    <footer class="footer py-6">
+        <div class="content has-text-centered">
+            <p>
+                Now with more nonsense!
+                <a href="https://github.com/bobertoyin/bobertoyin.com" target="_blank">Source code</a>
+                is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/" target="_blank">MIT</a>.
+            </p>
+            <code><a href="/changelog">v{{ version }}</a></code>
+        </div>
+    </footer>
+</body>
 
 <script>hljs.highlightAll();</script>
 
