@@ -39,7 +39,13 @@
                         {% endif %}
                         <div class="icon-text is-flex-wrap-nowrap">
                             <span class="icon"><i class="ph-bold ph-database"></i></span>
-                            <span>{{ repo_info.size }} kB</span>
+                            <span>
+                                {% if repo_info.size >= 1000 %}
+                                    {{ repo_info.size / 1000 | round(method="floor",precision=2) }} MB
+                                {% else %}
+                                    {{ repo_info.size }} kB
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="icon-text is-flex-wrap-nowrap">
                             <span class="icon"><i class="ph-bold ph-git-branch"></i></span>
