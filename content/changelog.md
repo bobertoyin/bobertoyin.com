@@ -8,12 +8,13 @@ title = "Change Log"
 
 ## `v3.2.0`
 
-- Add content to the `projects` page
-- Use CDN sources for [Phosphor Icons](https://phosphoricons.com) and [htmx](https://htmx.org)
+- Added content to the `projects` page
+- Used CDN sources for [Phosphor Icons](https://phosphoricons.com) and [htmx](https://htmx.org)
+- Made footer stick to the bottom of the browser when page content is not scrollable
 
 ## `v3.1.1`
 
-- Add missing `openssl-dev` package to `Dockerfile`
+- Added missing `openssl-dev` package to `Dockerfile`
 
 ## `v3.1.0`
 
