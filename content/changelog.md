@@ -6,6 +6,11 @@ title = "Change Log"
 
 ---
 
+## `v3.2.0`
+
+- Add content to the `projects` page
+- Use CDN sources for [Phosphor Icons](https://phosphoricons.com) and [htmx](https://htmx.org)
+
 ## `v3.1.1`
 
 - Add missing `openssl-dev` package to `Dockerfile`
