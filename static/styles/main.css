@@ -39,6 +39,10 @@ body {
     flex-direction: column;
 }
 
+.card, .card-image .image img {
+    border-radius: 0;
+}
+
 #main-content {
     flex: 1;
 }

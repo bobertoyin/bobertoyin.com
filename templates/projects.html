@@ -3,5 +3,67 @@
 {% block title %}Projects{% endblock title %}
 
 {% block content %}
-<p>Coming soon!</p>
+<div class="content">
+    <h1>Projects</h1>
+    <hr>
+    {% for project in projects %}
+        {% set repo_info = repo_data[loop.index0].0 %}
+        {% set repo_languages = repo_data[loop.index0].1 %}
+        <div class="mb-4">
+            <div class="columns">
+                <div class="column is-one-third">
+                    <figure class="image is-2by1">
+                        <img src="/static/assets/projects/{{ project.name }}.png" alt="{{ project.display_name }}" />
+                    </figure>
+                </div>
+                <div class="column">
+                    <h4>{{ project.display_name }}</h4>
+                    <p>{{ project.description | safe }}</p>
+                    <div class="tags">
+                        {% for language, size in repo_languages %}
+                            <span class="tag">{{ language }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {% if project.in_progress %}
+                            <div class="icon-text has-text-warning is-flex-wrap-nowrap">
+                                <span class="icon"><i class="ph-bold ph-warning"></i></span>
+                                <span>This project is in progress</span>
+                            </div>
+                        {% endif %}
+                        {% if repo_info.archived %}
+                            <div class="icon-text has-text-warning is-flex-wrap-nowrap">
+                                <span class="icon"><i class="ph-bold ph-archive"></i></span>
+                                <span>This project is archived</span>
+                            </div>
+                        {% endif %}
+                        <div class="icon-text is-flex-wrap-nowrap">
+                            <span class="icon"><i class="ph-bold ph-database"></i></span>
+                            <span>
+                                {% if repo_info.size >= 1000 %}
+                                    {{ repo_info.size / 1000 | round(method="floor",precision=2) }} MB
+                                {% else %}
+                                    {{ repo_info.size }} kB
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="icon-text is-flex-wrap-nowrap">
+                            <span class="icon"><i class="ph-bold ph-git-branch"></i></span>
+                            <span><a href="{{ repo_info.html_url }}" target="_blank">{{ repo_info.full_name }}</a></span>
+                        </div>
+                        {% if repo_info.homepage and repo_info.name != "bobertoyin.com" %}
+                            <div class="icon-text is-flex-wrap-nowrap">
+                                <span class="icon"><i class="ph-bold ph-arrow-square-out"></i></span>
+                                <span><a href="{{ repo_info.homepage }}" target="_blank">{{ repo_info.homepage | replace(from="https://",to="") }}</a></span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if not loop.last %}
+            <hr>
+        {% endif %}
+    {% endfor %}
+</div>
 {% endblock content %}
