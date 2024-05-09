@@ -1,4 +1,4 @@
-use std::error::Error;
+use std::{env::var, error::Error, sync::Arc};
 
 use axum::{
     extract::{Path, State},
@@ -8,11 +8,16 @@ use axum::{
     serve, Router,
 };
 use chrono::{NaiveDate, TimeDelta, Utc};
-use futures_util::{pin_mut, StreamExt};
+use futures_util::{future::try_join_all, pin_mut, StreamExt};
 use gray_matter::{engine::TOML, Matter};
 use lastfm::Client;
 use markdown::{
     message::Message, to_html_with_options, CompileOptions, Constructs, Options, ParseOptions,
+};
+use moka::future::Cache;
+use octocrab::{
+    models::{repos::Languages, Repository},
+    Octocrab, OctocrabBuilder,
 };
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
@@ -20,6 +25,9 @@ use tokio::{
     fs::{read_dir, File},
     io::AsyncReadExt,
     net::TcpListener,
+    spawn,
+    task::JoinError,
+    time::Duration,
 };
 use tower_http::services::ServeDir;
 
@@ -29,6 +37,28 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 struct SharedState {
     tera: Tera,
     lastfm: Client<String, String>,
+    github: Octocrab,
+    moka: Cache<String, (Repository, Languages)>,
+}
+
+impl SharedState {
+    async fn get_repo(&self, name: &str) -> Result<(Repository, Languages), AppError> {
+        match self.moka.get(name).await {
+            Some(info) => Ok(info),
+            None => {
+                let repo = self.github.repos("bobertoyin", name).get().await?;
+                let languages = self
+                    .github
+                    .repos("bobertoyin", name)
+                    .list_languages()
+                    .await?;
+                self.moka
+                    .insert(name.to_string(), (repo.clone(), languages.clone()))
+                    .await;
+                Ok((repo, languages))
+            }
+        }
+    }
 }
 
 enum AppError {
@@ -37,6 +67,9 @@ enum AppError {
     Markdown(Message),
     Frontmatter(String),
     LastFm(lastfm::errors::Error),
+    Github(octocrab::Error),
+    Json(serde_json::Error),
+    Task(JoinError),
 }
 
 impl IntoResponse for AppError {
@@ -49,6 +82,9 @@ impl IntoResponse for AppError {
                 Self::Markdown(e) => e.to_string(),
                 Self::Frontmatter(e) => format!("failed to parse frontmatter for {}", e),
                 Self::LastFm(e) => e.to_string(),
+                Self::Github(e) => e.to_string(),
+                Self::Json(e) => e.to_string(),
+                Self::Task(e) => e.to_string(),
             },
         )
             .into_response()
@@ -79,6 +115,24 @@ impl From<lastfm::errors::Error> for AppError {
     }
 }
 
+impl From<octocrab::Error> for AppError {
+    fn from(value: octocrab::Error) -> Self {
+        Self::Github(value)
+    }
+}
+
+impl From<serde_json::Error> for AppError {
+    fn from(value: serde_json::Error) -> Self {
+        Self::Json(value)
+    }
+}
+
+impl From<JoinError> for AppError {
+    fn from(value: JoinError) -> Self {
+        Self::Task(value)
+    }
+}
+
 #[derive(Serialize, Deserialize)]
 struct BlogInfo {
     title: String,
@@ -89,6 +143,16 @@ struct BlogInfo {
 #[derive(Serialize, Deserialize)]
 struct PageInfo {
     title: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct ProjectInfo {
+    name: String,
+    display_name: String,
+    description: String,
+    url: Option<String>,
+    #[serde(default)]
+    in_progress: bool,
 }
 
 fn parse_markdown(content: &str) -> Result<String, Message> {
@@ -141,7 +205,7 @@ fn format_time_delta(delta: &TimeDelta) -> String {
     formatted
 }
 
-async fn index(State(state): State<SharedState>) -> Result<Html<String>, AppError> {
+async fn index(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut content = String::new();
     File::open("content/index.md")
@@ -162,7 +226,7 @@ async fn index(State(state): State<SharedState>) -> Result<Html<String>, AppErro
     )?))
 }
 
-async fn blog(State(state): State<SharedState>) -> Result<Html<String>, AppError> {
+async fn blog(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut folder = read_dir("content/blog").await?;
     let mut posts = Vec::new();
@@ -192,7 +256,7 @@ async fn blog(State(state): State<SharedState>) -> Result<Html<String>, AppError
 }
 
 async fn blog_post(
-    State(state): State<SharedState>,
+    State(state): State<Arc<SharedState>>,
     Path(slug): Path<String>,
 ) -> Result<Html<String>, AppError> {
     let file_path = format!("content/blog/{}.md", slug);
@@ -215,8 +279,26 @@ async fn blog_post(
     )?))
 }
 
-async fn projects(State(state): State<SharedState>) -> Result<Html<String>, AppError> {
+async fn projects(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
+    let mut content = String::new();
+    File::open("content/projects.json")
+        .await?
+        .read_to_string(&mut content)
+        .await?;
+    let projects = serde_json::from_str::<Vec<ProjectInfo>>(&content)?;
+    let mut repo_data_handles = Vec::new();
+    for project in projects.iter() {
+        let state_clone = state.clone();
+        let name_clone = project.name.clone();
+        repo_data_handles.push(spawn(
+            async move { state_clone.get_repo(&name_clone).await },
+        ));
+    }
+    let repo_data: Result<Vec<(Repository, Languages)>, AppError> =
+        try_join_all(repo_data_handles).await?.into_iter().collect();
+    context.insert("projects", &projects);
+    context.insert("repo_data", &repo_data?);
     context.insert("active", "projects");
     Ok(Html(render_template(
         &state.tera,
@@ -225,7 +307,7 @@ async fn projects(State(state): State<SharedState>) -> Result<Html<String>, AppE
     )?))
 }
 
-async fn changelog(State(state): State<SharedState>) -> Result<Html<String>, AppError> {
+async fn changelog(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut content = String::new();
     File::open("content/changelog.md")
@@ -246,7 +328,7 @@ async fn changelog(State(state): State<SharedState>) -> Result<Html<String>, App
 }
 
 async fn currently_playing(
-    State(state): State<SharedState>,
+    State(state): State<Arc<SharedState>>,
 ) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let track = state.lastfm.now_playing().await?;
@@ -255,7 +337,7 @@ async fn currently_playing(
         context.insert("track_time", "now");
     } else {
         let now = Utc::now();
-        let stream = state.lastfm.all_tracks().await?.into_stream();
+        let stream = state.lastfm.clone().all_tracks().await?.into_stream();
         pin_mut!(stream);
         if let Some(track) = stream.next().await {
             let track = track?;
@@ -265,7 +347,10 @@ async fn currently_playing(
     }
     match render_template(&state.tera, "currently-playing.html", &mut context) {
         Ok(content) => Ok(Html(content)),
-        Err(e) => Ok(Html(format!("<span id=\"track\" class=\"has-text-danger\">{}</span>", e))),
+        Err(e) => Ok(Html(format!(
+            "<span id=\"track\" class=\"has-text-danger\">{}</span>",
+            e
+        ))),
     }
 }
 
@@ -273,6 +358,13 @@ async fn currently_playing(
 async fn main() -> Result<(), Box<dyn Error>> {
     let tera = Tera::new("templates/**/*.html")?;
     let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())?;
+    let github = OctocrabBuilder::default()
+        .personal_token(var("GITHUB_PERSONAL_TOKEN")?)
+        .build()?;
+    let moka = Cache::<String, (Repository, Languages)>::builder()
+        .max_capacity(100)
+        .time_to_live(Duration::from_secs(3 * 60))
+        .build();
     let app = Router::new()
         .route("/", get(index))
         .route("/blog", get(blog))
@@ -280,7 +372,12 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .route("/projects", get(projects))
         .route("/changelog", get(changelog))
         .route("/currently_playing", get(currently_playing))
-        .with_state(SharedState { tera, lastfm })
+        .with_state(Arc::new(SharedState {
+            tera,
+            lastfm,
+            github,
+            moka,
+        }))
         .nest_service("/static", ServeDir::new("static"));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;
     Ok(serve(listener, app).await?)
