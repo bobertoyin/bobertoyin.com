@@ -1,5 +1,5 @@
 use std::{
-    env::{var, VarError},
+    env::VarError,
     sync::Arc,
 };
 
@@ -334,12 +334,7 @@ async fn main() -> Result<(), BuildError> {
     let tera = Tera::new("templates/**/*.html")?;
     let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())
         .map_err(|err| BuildError::EnvVar("LASTFM_API_KEY", err))?;
-    let github = OctocrabBuilder::default()
-        .personal_token(
-            var("GITHUB_PERSONAL_TOKEN")
-                .map_err(|err| BuildError::EnvVar("GITHUB_PERSONAL_TOKEN", err))?,
-        )
-        .build()?;
+    let github = OctocrabBuilder::default().build()?;
     let moka = Cache::<String, (Repository, Languages)>::builder()
         .max_capacity(100)
         .time_to_live(Duration::from_secs(3 * 60))
