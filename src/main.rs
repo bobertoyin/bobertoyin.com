@@ -1,4 +1,7 @@
-use std::{env::var, sync::Arc};
+use std::{
+    env::{var, VarError},
+    sync::Arc,
+};
 
 use axum::{
     extract::{Path, State},
@@ -21,6 +24,7 @@ use octocrab::{
 };
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
+use thiserror::Error;
 use tokio::{
     fs::{read_dir, File},
     io::AsyncReadExt,
@@ -60,76 +64,47 @@ impl SharedState {
         }
     }
 }
+#[derive(Debug, Error)]
+enum BuildError {
+    #[error("Template engine error: {0}")]
+    Template(#[from] tera::Error),
+    #[error("Error for environment variable \"{0}\": {1}")]
+    EnvVar(&'static str, VarError),
+    #[error("Github error: {0}")]
+    Github(#[from] octocrab::Error),
+    #[error("I/O error: {0}")]
+    Io(#[from] std::io::Error),
+}
 
+#[derive(Debug, Error)]
 enum AppError {
-    Template(tera::Error),
-    Io(std::io::Error),
+    #[error("Template engine error: {0}")]
+    Template(#[from] tera::Error),
+    #[error("I/O error: {0}")]
+    Io(#[from] std::io::Error),
+    #[error("Markdown error: {0}")]
     Markdown(Message),
+    #[error("Markdown frontmatter error for file: {0}")]
     Frontmatter(String),
-    LastFm(lastfm::errors::Error),
-    Github(octocrab::Error),
-    Json(serde_json::Error),
-    Task(JoinError),
+    #[error("Last.fm error: {0}")]
+    LastFm(#[from] lastfm::errors::Error),
+    #[error("Github error: {0}")]
+    Github(#[from] octocrab::Error),
+    #[error("Json error: {0}")]
+    Json(#[from] serde_json::Error),
+    #[error("Task join error: {0}")]
+    Task(#[from] JoinError),
 }
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
-        (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            match self {
-                Self::Template(e) => e.to_string(),
-                Self::Io(e) => e.to_string(),
-                Self::Markdown(e) => e.to_string(),
-                Self::Frontmatter(e) => format!("failed to parse frontmatter for {}", e),
-                Self::LastFm(e) => e.to_string(),
-                Self::Github(e) => e.to_string(),
-                Self::Json(e) => e.to_string(),
-                Self::Task(e) => e.to_string(),
-            },
-        )
-            .into_response()
-    }
-}
-
-impl From<tera::Error> for AppError {
-    fn from(value: tera::Error) -> Self {
-        Self::Template(value)
-    }
-}
-
-impl From<std::io::Error> for AppError {
-    fn from(value: std::io::Error) -> Self {
-        Self::Io(value)
+        (StatusCode::INTERNAL_SERVER_ERROR, self.to_string()).into_response()
     }
 }
 
 impl From<Message> for AppError {
     fn from(value: Message) -> Self {
         Self::Markdown(value)
-    }
-}
-
-impl From<lastfm::errors::Error> for AppError {
-    fn from(value: lastfm::errors::Error) -> Self {
-        Self::LastFm(value)
-    }
-}
-
-impl From<octocrab::Error> for AppError {
-    fn from(value: octocrab::Error) -> Self {
-        Self::Github(value)
-    }
-}
-
-impl From<serde_json::Error> for AppError {
-    fn from(value: serde_json::Error) -> Self {
-        Self::Json(value)
-    }
-}
-
-impl From<JoinError> for AppError {
-    fn from(value: JoinError) -> Self {
-        Self::Task(value)
     }
 }
 
@@ -355,12 +330,16 @@ async fn currently_playing(
 }
 
 #[tokio::main]
-async fn main() {
-    let tera = Tera::new("templates/**/*.html").expect("failed to initialize template engine");
-    let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string()).expect("failed to build last.fm client");
+async fn main() -> Result<(), BuildError> {
+    let tera = Tera::new("templates/**/*.html")?;
+    let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())
+        .map_err(|err| BuildError::EnvVar("LASTFM_API_KEY", err))?;
     let github = OctocrabBuilder::default()
-        .personal_token(var("GITHUB_PERSONAL_TOKEN").expect("missing github access token"))
-        .build().expect("failed to build github client");
+        .personal_token(
+            var("GITHUB_PERSONAL_TOKEN")
+                .map_err(|err| BuildError::EnvVar("GITHUB_PERSONAL_TOKEN", err))?,
+        )
+        .build()?;
     let moka = Cache::<String, (Repository, Languages)>::builder()
         .max_capacity(100)
         .time_to_live(Duration::from_secs(3 * 60))
@@ -379,6 +358,6 @@ async fn main() {
             moka,
         }))
         .nest_service("/static", ServeDir::new("static"));
-    let listener = TcpListener::bind("0.0.0.0:3000").await.expect("failed to bind to 0.0.0.0:3000");
-    serve(listener, app).await.expect("failed to serve application")
+    let listener = TcpListener::bind("0.0.0.0:3000").await?;
+    Ok(serve(listener, app).await?)
 }
