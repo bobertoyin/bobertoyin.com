@@ -25,4 +25,4 @@ function initThemeIcon() {
 }
 
 initTheme();
-window.onload = initThemeIcon;
+addEventListener("DOMContentLoaded", initThemeIcon);
