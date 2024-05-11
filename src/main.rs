@@ -1,4 +1,4 @@
-use std::{env::var, error::Error, sync::Arc};
+use std::{env::var, sync::Arc};
 
 use axum::{
     extract::{Path, State},
@@ -355,12 +355,12 @@ async fn currently_playing(
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn Error>> {
-    let tera = Tera::new("templates/**/*.html")?;
-    let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())?;
+async fn main() {
+    let tera = Tera::new("templates/**/*.html").expect("failed to initialize template engine");
+    let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string()).expect("failed to build last.fm client");
     let github = OctocrabBuilder::default()
-        .personal_token(var("GITHUB_PERSONAL_TOKEN")?)
-        .build()?;
+        .personal_token(var("GITHUB_PERSONAL_TOKEN").expect("missing github access token"))
+        .build().expect("failed to build github client");
     let moka = Cache::<String, (Repository, Languages)>::builder()
         .max_capacity(100)
         .time_to_live(Duration::from_secs(3 * 60))
@@ -379,6 +379,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
             moka,
         }))
         .nest_service("/static", ServeDir::new("static"));
-    let listener = TcpListener::bind("0.0.0.0:3000").await?;
-    Ok(serve(listener, app).await?)
+    let listener = TcpListener::bind("0.0.0.0:3000").await.expect("failed to bind to 0.0.0.0:3000");
+    serve(listener, app).await.expect("failed to serve application")
 }
