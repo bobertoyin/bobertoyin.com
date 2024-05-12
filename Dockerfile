@@ -13,5 +13,8 @@ RUN cargo build --release --bin bobertoyindotcom
 
 FROM gcr.io/distroless/cc-debian12:latest AS runtime
 WORKDIR /site
-COPY --from=builder /site/target/release/bobertoyindotcom /usr/local/bin
+COPY content ./content
+COPY static ./static
+COPY templates ./templates
+COPY --from=builder /site/target/release/bobertoyindotcom /usr/local/bin/bobertoyindotcom
 ENTRYPOINT ["/usr/local/bin/bobertoyindotcom"]
