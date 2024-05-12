@@ -6,6 +6,10 @@ title = "Change Log"
 
 ---
 
+## `v3.2.2`
+
+- Fixed Docker build issues stemming from missing folder copying and incorrectly naming the built binary
+
 ## `v3.2.1`
 
 - Improved Docker build times, build caching opportunities, and image size
