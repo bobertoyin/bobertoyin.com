@@ -6,6 +6,14 @@ title = "Change Log"
 
 ---
 
+## `v3.2.1`
+
+- Improved Docker build times, build caching opportunities, and image size
+  - Accomplished with [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) and [distroless images](https://github.com/GoogleContainerTools/distroless)
+- Fixed issue with the sun icon in the theme-toggle button briefly flashing when using the light color theme
+- Simplified and added new [`Error`](https://doc.rust-lang.org/std/error/index.html) types within the server code
+- Removed the requirement of a Github personal access token to run the site
+
 ## `v3.2.0`
 
 - Added content to the `projects` page
