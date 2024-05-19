@@ -1,6 +1,6 @@
 <span id="track">
     {% if track %}
-        <a href="{{ track.url }}" target="_blank">{{ track.name }}</a> by <a href="{{ track.artist.url }}" target="_blank">{{ track.artist.name }}</a>
+        <a href="{{ track.url }}">{{ track.name }}</a> by <a href="{{ track.artist.url }}">{{ track.artist.name }}</a>
         {% if track_time %}
             - {{ track_time }}
         {% endif %}
