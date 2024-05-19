@@ -59,13 +59,13 @@ I'm not currently looking for job opportunities, but still feel free to reach ou
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon has-text-warning"><i class="ph-bold ph-briefcase"></i></span>
-            <span>Sofware Developer at <a href="https://epic.com" target="_blank">Epic Systems</a></span>
+            <span>Sofware Developer at <a href="https://epic.com">Epic Systems</a></span>
         </span>
     </li>
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon has-text-link"><i class="ph-bold ph-graduation-cap"></i></span>
-            <span>BSCS from <a href="https://northeastern.edu" target="_blank">Northeastern University</a></span>
+            <span>BSCS from <a href="https://northeastern.edu">Northeastern University</a></span>
         </span>
     </li>
 </ul>
@@ -74,25 +74,25 @@ I'm not currently looking for job opportunities, but still feel free to reach ou
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon has-text-primary"><i class="ph-bold ph-envelope"></i></span>
-            <span><a href="mailto:bobertoyin@gmail.com" target="_blank">bobertoyin@gmail.com</a></span>
+            <span><a href="mailto:bobertoyin@gmail.com">bobertoyin@gmail.com</a></span>
         </span>
     </li>
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon has-text-success"><i class="ph-bold ph-read-cv-logo"></i></span>
-            <span><a href="/static/assets/resume.pdf" target="_blank">resume.pdf</a></span>
+            <span><a href="/static/assets/resume.pdf">resume.pdf</a></span>
         </span>
     </li>
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon"><i class="ph-bold ph-github-logo"></i></span>
-            <span><a href="https://github.com/bobertoyin" target="_blank">@bobertoyin</a></span>
+            <span><a href="https://github.com/bobertoyin">@bobertoyin</a></span>
         </span>
     </li>
     <li>
         <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon has-text-info"><i class="ph-bold ph-linkedin-logo"></i></span>
-            <span><a href="https://linkedin.com/in/boberto" target="_blank">@boberto</a></span>
+            <span><a href="https://linkedin.com/in/boberto">@boberto</a></span>
         </span>
     </li>
 </ul>

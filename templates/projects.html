@@ -49,12 +49,12 @@
                         </div>
                         <div class="icon-text is-flex-wrap-nowrap">
                             <span class="icon"><i class="ph-bold ph-git-branch"></i></span>
-                            <span><a href="{{ repo_info.html_url }}" target="_blank">{{ repo_info.full_name }}</a></span>
+                            <span><a href="{{ repo_info.html_url }}">{{ repo_info.full_name }}</a></span>
                         </div>
                         {% if repo_info.homepage and repo_info.name != "bobertoyin.com" %}
                             <div class="icon-text is-flex-wrap-nowrap">
                                 <span class="icon"><i class="ph-bold ph-arrow-square-out"></i></span>
-                                <span><a href="{{ repo_info.homepage }}" target="_blank">{{ repo_info.homepage | replace(from="https://",to="") }}</a></span>
+                                <span><a href="{{ repo_info.homepage }}">{{ repo_info.homepage | replace(from="https://",to="") }}</a></span>
                             </div>
                         {% endif %}
                     </div>
