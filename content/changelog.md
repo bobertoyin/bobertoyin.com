@@ -6,6 +6,12 @@ title = "Change Log"
 
 ---
 
+## `v3.2.3`
+
+- Removed old blog post file
+- Changed the default link behavior to open in a new tab
+- Made code-styled links the same color as regular links
+
 ## `v3.2.2`
 
 - Fixed Docker build issues stemming from missing folder copying and incorrectly naming the built binary
