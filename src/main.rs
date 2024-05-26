@@ -1,7 +1,4 @@
-use std::{
-    env::VarError,
-    sync::Arc,
-};
+use std::{env::VarError, sync::Arc};
 
 use axum::{
     extract::{Path, State},
@@ -13,7 +10,10 @@ use axum::{
 use chrono::{NaiveDate, TimeDelta, Utc};
 use futures_util::{future::try_join_all, pin_mut, StreamExt};
 use gray_matter::{engine::TOML, Matter};
-use lastfm::Client;
+use lastfm::{
+    track::{NowPlayingTrack, RecordedTrack},
+    Client,
+};
 use markdown::{
     message::Message, to_html_with_options, CompileOptions, Constructs, Options, ParseOptions,
 };
@@ -41,13 +41,14 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 struct SharedState {
     tera: Tera,
     lastfm: Client<String, String>,
+    lastfm_cache: Cache<(), Option<Song>>,
     github: Octocrab,
-    moka: Cache<String, (Repository, Languages)>,
+    github_cache: Cache<String, (Repository, Languages)>,
 }
 
 impl SharedState {
     async fn get_repo(&self, name: &str) -> Result<(Repository, Languages), AppError> {
-        match self.moka.get(name).await {
+        match self.github_cache.get(name).await {
             Some(info) => Ok(info),
             None => {
                 let repo = self.github.repos("bobertoyin", name).get().await?;
@@ -56,14 +57,61 @@ impl SharedState {
                     .repos("bobertoyin", name)
                     .list_languages()
                     .await?;
-                self.moka
+                self.github_cache
                     .insert(name.to_string(), (repo.clone(), languages.clone()))
                     .await;
                 Ok((repo, languages))
             }
         }
     }
+
+    async fn get_song(&self) -> Result<Option<Song>, AppError> {
+        match self.lastfm_cache.get(&()).await {
+            Some(song) => Ok(song),
+            None => {
+                let track = self.lastfm.now_playing().await?;
+                if let Some(track) = track {
+                    let wrapped = Song::from(track);
+                    self.lastfm_cache.insert((), Some(wrapped.clone())).await;
+                    Ok(Some(wrapped))
+                } else {
+                    let stream = self.lastfm.clone().all_tracks().await?.into_stream();
+                    pin_mut!(stream);
+                    match stream.next().await {
+                        Some(track) => {
+                            let wrapped = Song::from(track?);
+                            self.lastfm_cache.insert((), Some(wrapped.clone())).await;
+                            Ok(Some(wrapped))
+                        }
+                        None => {
+                            self.lastfm_cache.insert((), None).await;
+                            Ok(None)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
+#[derive(Clone)]
+enum Song {
+    Now(NowPlayingTrack),
+    Previous(RecordedTrack),
+}
+
+impl From<NowPlayingTrack> for Song {
+    fn from(value: NowPlayingTrack) -> Self {
+        Self::Now(value)
+    }
+}
+
+impl From<RecordedTrack> for Song {
+    fn from(value: RecordedTrack) -> Self {
+        Self::Previous(value)
+    }
+}
+
 #[derive(Debug, Error)]
 enum BuildError {
     #[error("Template engine error: {0}")]
@@ -306,20 +354,23 @@ async fn currently_playing(
     State(state): State<Arc<SharedState>>,
 ) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
-    let track = state.lastfm.now_playing().await?;
+    let track = state.get_song().await?;
     if let Some(track) = track {
-        context.insert("track", &track);
-        context.insert("track_time", "now");
-    } else {
-        let now = Utc::now();
-        let stream = state.lastfm.clone().all_tracks().await?.into_stream();
-        pin_mut!(stream);
-        if let Some(track) = stream.next().await {
-            let track = track?;
-            context.insert("track", &track);
-            context.insert("track_time", &format_time_delta(&(now - track.date).abs()));
+        match track {
+            Song::Now(current_track) => {
+                context.insert("track", &current_track);
+                context.insert("track_time", "now");
+            }
+            Song::Previous(previous_track) => {
+                let now = Utc::now();
+                context.insert("track", &previous_track);
+                context.insert(
+                    "track_time",
+                    &format_time_delta(&(now - previous_track.date).abs()),
+                );
+            }
         }
-    }
+    };
     match render_template(&state.tera, "currently-playing.html", &mut context) {
         Ok(content) => Ok(Html(content)),
         Err(e) => Ok(Html(format!(
@@ -334,9 +385,11 @@ async fn main() -> Result<(), BuildError> {
     let tera = Tera::new("templates/**/*.html")?;
     let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())
         .map_err(|err| BuildError::EnvVar("LASTFM_API_KEY", err))?;
+    let lastfm_cache = Cache::<(), Option<Song>>::builder()
+        .time_to_live(Duration::from_secs(2))
+        .build();
     let github = OctocrabBuilder::default().build()?;
-    let moka = Cache::<String, (Repository, Languages)>::builder()
-        .max_capacity(100)
+    let github_cache = Cache::<String, (Repository, Languages)>::builder()
         .time_to_live(Duration::from_secs(3 * 60))
         .build();
     let app = Router::new()
@@ -349,8 +402,9 @@ async fn main() -> Result<(), BuildError> {
         .with_state(Arc::new(SharedState {
             tera,
             lastfm,
+            lastfm_cache,
             github,
-            moka,
+            github_cache,
         }))
         .nest_service("/static", ServeDir::new("static"));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;

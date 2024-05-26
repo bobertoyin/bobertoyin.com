@@ -1,13 +1,30 @@
-<span id="track">
-    {% if track %}
-        <a href="{{ track.url }}">{{ track.name }}</a> by <a href="{{ track.artist.url }}">{{ track.artist.name }}</a>
-        {% if track_time %}
-            - {{ track_time }}
-        {% endif %}
-    {% else %}
-        No music right now
-    {% endif %}
-    {% if tracks %}
-    {{ tracks | json_encode }}
-    {% endif %}
-</span>
+<article class="media">
+    <figure class="media-left">
+        <p class="image is-64x64">
+            {% if track.image.large %}
+                <img src="{{ track.image.large }}" alt="{{ track.name }} by {{ track.artist.name }}">
+            {% else %}
+                <img src="https://placehold.co/64x64" alt="Placeholder image">
+            {% endif %}
+        </p>
+    </figure>
+    <div class="media-content">
+        <div class="content">
+            <span class="icon-text is-flex-wrap-nowrap">
+                <span class="icon"><i class="ph-bold ph-equalizer"></i></span>
+                <span>
+                    {% if track %}
+                        <strong><a href="{{ track.url }}">{{ track.name }}</a></strong>
+                    {% else %}
+                        <strong>no song found</strong>
+                    {% endif %}
+                </span>
+            </span>
+            {% if track %}
+                <span>
+                    <small>by <a href="{{ track.artist.url }}">{{ track.artist.name }}</a> - {{ track_time }}</small>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</article>

@@ -2,44 +2,57 @@
 title = "Home"
 ---
 
-<div class="columns">
-    <div class="column">
-        <figure class="image is-128x128">
-            <img id="profile-pic" src="/static/assets/robert.jpg">
-        </figure>
-    </div>
-    <div class="column is-11">
-        <h1 class="title has-text-weight-bold">bob·ert·o</h1>
-        <p class="subtitle is-italic">noun</p>
-        <p>A portmanteau of the nicknames <strong>Bobert</strong> and <strong>Roberto</strong>.</p>
-        <p
-            hx-get="/currently_playing"
-            hx-indicator="#indicator"
-            hx-trigger="load"
-            hx-target="#track"
-            hx-swap="outerHTML"
-            hx-on::before-request="resetTrack()"
-            hx-on::after-request="resetReloadButton()">
-            <span class="icon-text is-flex-wrap-nowrap">
-                <span class="icon"><i class="ph-bold ph-equalizer"></i></span>
-                <span id="indicator" class="htmx-indicator">...</span>
-                <span id="track"></span>
-                <span
-                    id="reload"
-                    hx-get="/currently_playing"
-                    hx-indicator="#indicator"
-                    hx-trigger="click"
-                    hx-target="#track"
-                    hx-swap="outerHTML"
-                    hx-on::before-request="resetTrack()"
-                    hx-on::after-request="resetReloadButton()"
-                    class="icon">
-                    <i class="ph-bold ph-arrows-clockwise"></i>
-                </span>
-            </span>
+<article class="media">
+    <figure class="media-left">
+        <p class="image is-96x96">
+            <img src="/static/assets/robert.jpg" alt="Robert Yin">
+        </p>
+    </figure>
+    <div class="media-content">
+        <h1 class="title has-text-weight-bold is-size-5-mobile">bob·ert·o</h1>
+        <p class="subtitle is-italic is-size-6-mobile">noun</p>
+        <p>A portmanteau:
+            <a href="https://en.wiktionary.org/wiki/Bobert"><strong>Bobert</strong></a>
+            +
+            <a href="https://en.wiktionary.org/wiki/Roberto"><strong>Roberto</strong></a>.
         </p>
     </div>
-</div>
+</article>
+
+<article 
+    class="message"
+    hx-get="/currently_playing"
+    hx-trigger="load"
+    hx-target="#message-body"
+    hx-on::before-request="resetMessage()"
+    hx-on::after-request="resetMessageReload()">
+    <div class="message-header p-2">
+        <span class="icon-text is-flex-wrap-nowrap">
+            <span class="icon"><i class="ph-bold ph-broadcast"></i></span>
+            <span>Activity</span>
+        </span>
+        <span id="reload"
+            class="icon"
+            hx-get="/currently_playing"
+            hx-trigger="click"
+            hx-target="#message-body"
+            hx-on::before-request="resetMessage()"
+            hx-on::after-request="resetMessageReload()">
+            <i class="ph-bold ph-arrows-clockwise"></i>
+        </span>
+    </div>
+    <div id="message-body" class="message-body">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-64x64 is-skeleton">
+                    <img>
+                </p>
+            </figure>
+            <div class="media-content is-skeleton">
+            </div>
+        </article>
+    </div>
+</article>
 
 ---
 
