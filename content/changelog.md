@@ -6,6 +6,12 @@ title = "Change Log"
 
 ---
 
+## `v3.3.0`
+
+- Added caching for the current/last song
+- Redesigned UI for the current/last song + general activity
+- Changed navbar items to use default bulma styling when active
+
 ## `v3.2.3`
 
 - Removed old blog post file
