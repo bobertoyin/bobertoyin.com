@@ -49,6 +49,7 @@ title = "Home"
                 </p>
             </figure>
             <div class="media-content is-skeleton">
+                <strong>song</strong> <small>by artist - some time ago</small>
             </div>
         </article>
     </div>
