@@ -6,6 +6,10 @@ title = "Change Log"
 
 ---
 
+## `v3.3.1`
+
+- Fixed issue with the song activity not loading a skeleton element for the text portion
+
 ## `v3.3.0`
 
 - Added caching for the current/last song
