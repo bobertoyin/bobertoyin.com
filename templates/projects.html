@@ -31,27 +31,17 @@
                     </div>
                     <div>
                         {% if project.in_progress %}
-                            <div class="icon-text has-text-warning is-flex-wrap-nowrap">
-                                <span class="icon"><i class="ph-bold ph-warning"></i></span>
+                            <div class="icon-text is-flex-wrap-nowrap">
+                                <span class="icon has-text-warning "><i class="ph-bold ph-warning"></i></span>
                                 <span>This project is in progress</span>
                             </div>
                         {% endif %}
                         {% if repo_info.archived %}
-                            <div class="icon-text has-text-warning is-flex-wrap-nowrap">
-                                <span class="icon"><i class="ph-bold ph-archive"></i></span>
+                            <div class="icon-text is-flex-wrap-nowrap">
+                                <span class="icon has-text-warning"><i class="ph-bold ph-archive"></i></span>
                                 <span>This project is archived</span>
                             </div>
                         {% endif %}
-                        <div class="icon-text is-flex-wrap-nowrap">
-                            <span class="icon"><i class="ph-bold ph-database"></i></span>
-                            <span>
-                                {% if repo_info.size >= 1000 %}
-                                    {{ repo_info.size / 1000 | round(method="floor",precision=2) }} MB
-                                {% else %}
-                                    {{ repo_info.size }} kB
-                                {% endif %}
-                            </span>
-                        </div>
                         <div class="icon-text is-flex-wrap-nowrap">
                             <span class="icon"><i class="ph-bold ph-git-branch"></i></span>
                             <span><a href="{{ repo_info.html_url }}">{{ repo_info.full_name }}</a></span>
