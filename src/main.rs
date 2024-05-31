@@ -176,6 +176,8 @@ struct ProjectInfo {
     url: Option<String>,
     #[serde(default)]
     in_progress: bool,
+    #[serde(default)]
+    missing_photo: bool,
 }
 
 fn parse_markdown(content: &str) -> Result<String, Message> {

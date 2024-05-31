@@ -3,7 +3,8 @@
         "name": "cubecrit",
         "display_name": "CubeCrit",
         "description": "A website for reviewing <a href=\"https://en.wikipedia.org/wiki/Speedcubing\">speedcubes</a> using only your <a href=\"https://www.worldcubeassociation.org\">WCA</a> account.",
-        "in_progress": true
+        "in_progress": true,
+        "missing_photo": true
     },
     {
         "name": "bobertoyin.com",

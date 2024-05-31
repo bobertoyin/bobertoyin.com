@@ -13,7 +13,12 @@
             <div class="columns">
                 <div class="column is-one-third">
                     <figure class="image is-2by1">
-                        <img src="/static/assets/projects/{{ project.name }}.png" alt="{{ project.display_name }}" />
+                        {% if project.missing_photo %}
+                            {%- set photo_url = "https://placehold.co/1920x960?font=Open+Sans&text=Image+not+found" -%}
+                        {% else %}
+                            {%- set photo_url = "/static/assets/projects/" ~ project.name ~ ".png" -%}
+                        {% endif %}
+                        <img src="{{ photo_url }}" alt="{{ project.display_name }}" />
                     </figure>
                 </div>
                 <div class="column">
