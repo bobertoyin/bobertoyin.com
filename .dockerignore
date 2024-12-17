@@ -5,3 +5,4 @@ Dockerfile
 .gitignore
 README.md
 LICENSE
+.env

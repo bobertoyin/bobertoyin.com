@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Photos{% endblock title %}
+
+{% block content %}
+<div class="content">
+    <h1>Photos</h1>
+    <div class="fixed-grid has-4-cols">
+        <div class="grid is-gap-4">
+            {% for folder in folders %}
+                <div class="cell thumbnail-cell has-text-centered">
+                    <img src="https://bobertoyin-photos.nyc3.digitaloceanspaces.com/{{ folder.name }}/01.jpg" />
+                    <a href="/photos/{{ folder.name }}" target="_self">{{ folder.display_name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

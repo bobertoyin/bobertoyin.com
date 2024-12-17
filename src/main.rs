@@ -1,5 +1,6 @@
-use std::{env::VarError, sync::Arc};
+use std::{env::var, sync::Arc};
 
+use aws_config::Region;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
@@ -8,153 +9,29 @@ use axum::{
     serve, Router,
 };
 use chrono::{NaiveDate, TimeDelta, Utc};
-use futures_util::{future::try_join_all, pin_mut, StreamExt};
+use dotenv::dotenv;
+use futures_util::future::try_join_all;
 use gray_matter::{engine::TOML, Matter};
-use lastfm::{
-    track::{NowPlayingTrack, RecordedTrack},
-    Client,
-};
 use markdown::{
     message::Message, to_html_with_options, CompileOptions, Constructs, Options, ParseOptions,
 };
-use moka::future::Cache;
-use octocrab::{
-    models::{repos::Languages, Repository},
-    Octocrab, OctocrabBuilder,
-};
+use octocrab::models::{repos::Languages, Repository};
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
-use thiserror::Error;
 use tokio::{
     fs::{read_dir, File},
     io::AsyncReadExt,
     net::TcpListener,
     spawn,
-    task::JoinError,
-    time::Duration,
 };
 use tower_http::services::ServeDir;
 
+mod error;
+use error::{AppError, BuildError};
+mod state;
+use state::{SharedState, Song};
+
 const VERSION: &str = env!("CARGO_PKG_VERSION");
-
-#[derive(Clone)]
-struct SharedState {
-    tera: Tera,
-    lastfm: Client<String, String>,
-    lastfm_cache: Cache<(), Option<Song>>,
-    github: Octocrab,
-    github_cache: Cache<String, (Repository, Languages)>,
-}
-
-impl SharedState {
-    async fn get_repo(&self, name: &str) -> Result<(Repository, Languages), AppError> {
-        match self.github_cache.get(name).await {
-            Some(info) => Ok(info),
-            None => {
-                let repo = self.github.repos("bobertoyin", name).get().await?;
-                let languages = self
-                    .github
-                    .repos("bobertoyin", name)
-                    .list_languages()
-                    .await?;
-                self.github_cache
-                    .insert(name.to_string(), (repo.clone(), languages.clone()))
-                    .await;
-                Ok((repo, languages))
-            }
-        }
-    }
-
-    async fn get_song(&self) -> Result<Option<Song>, AppError> {
-        match self.lastfm_cache.get(&()).await {
-            Some(song) => Ok(song),
-            None => {
-                let track = self.lastfm.now_playing().await?;
-                if let Some(track) = track {
-                    let wrapped = Song::from(track);
-                    self.lastfm_cache.insert((), Some(wrapped.clone())).await;
-                    Ok(Some(wrapped))
-                } else {
-                    let stream = self.lastfm.clone().all_tracks().await?.into_stream();
-                    pin_mut!(stream);
-                    match stream.next().await {
-                        Some(track) => {
-                            let wrapped = Song::from(track?);
-                            self.lastfm_cache.insert((), Some(wrapped.clone())).await;
-                            Ok(Some(wrapped))
-                        }
-                        None => {
-                            self.lastfm_cache.insert((), None).await;
-                            Ok(None)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-#[derive(Clone)]
-enum Song {
-    Now(NowPlayingTrack),
-    Previous(RecordedTrack),
-}
-
-impl From<NowPlayingTrack> for Song {
-    fn from(value: NowPlayingTrack) -> Self {
-        Self::Now(value)
-    }
-}
-
-impl From<RecordedTrack> for Song {
-    fn from(value: RecordedTrack) -> Self {
-        Self::Previous(value)
-    }
-}
-
-#[derive(Debug, Error)]
-enum BuildError {
-    #[error("Template engine error: {0}")]
-    Template(#[from] tera::Error),
-    #[error("Error for environment variable \"{0}\": {1}")]
-    EnvVar(&'static str, VarError),
-    #[error("Github error: {0}")]
-    Github(#[from] octocrab::Error),
-    #[error("I/O error: {0}")]
-    Io(#[from] std::io::Error),
-}
-
-#[derive(Debug, Error)]
-enum AppError {
-    #[error("Template engine error: {0}")]
-    Template(#[from] tera::Error),
-    #[error("I/O error: {0}")]
-    Io(#[from] std::io::Error),
-    #[error("Markdown error: {0}")]
-    Markdown(Message),
-    #[error("Markdown frontmatter error for file: {0}")]
-    Frontmatter(String),
-    #[error("Last.fm error: {0}")]
-    LastFm(#[from] lastfm::errors::Error),
-    #[error("Github error: {0}")]
-    Github(#[from] octocrab::Error),
-    #[error("Json error: {0}")]
-    Json(#[from] serde_json::Error),
-    #[error("Task join error: {0}")]
-    Task(#[from] JoinError),
-}
-
-impl IntoResponse for AppError {
-    fn into_response(self) -> Response {
-        (StatusCode::INTERNAL_SERVER_ERROR, self.to_string()).into_response()
-    }
-}
-
-impl From<Message> for AppError {
-    fn from(value: Message) -> Self {
-        Self::Markdown(value)
-    }
-}
 
 #[derive(Serialize, Deserialize)]
 struct BlogInfo {
@@ -228,6 +105,19 @@ fn format_time_delta(delta: &TimeDelta) -> String {
     formatted
 }
 
+fn title_case<S: AsRef<str>>(string: S) -> String {
+    let words = string
+        .as_ref()
+        .split(" ")
+        .map(|word| {
+            let mut word = word.chars().collect::<Vec<char>>();
+            word[0] = word[0].to_ascii_uppercase();
+            word.into_iter().collect()
+        })
+        .collect::<Vec<String>>();
+    words.join(" ")
+}
+
 async fn index(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
     let mut content = String::new();
@@ -297,7 +187,7 @@ async fn blog_post(
     context.insert("content", &parse_markdown(&content)?);
     Ok(Html(render_template(
         &state.tera,
-        "blog-post.html",
+        "blog_post.html",
         &mut context,
     )?))
 }
@@ -371,7 +261,7 @@ async fn currently_playing(
             }
         }
     };
-    match render_template(&state.tera, "currently-playing.html", &mut context) {
+    match render_template(&state.tera, "currently_playing.html", &mut context) {
         Ok(content) => Ok(Html(content)),
         Err(e) => Ok(Html(format!(
             "<span id=\"track\" class=\"has-text-danger\">{}</span>",
@@ -380,18 +270,52 @@ async fn currently_playing(
     }
 }
 
+async fn photos_home(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
+    let mut context = Context::new();
+    context.insert("active", "photos");
+    context.insert("folders", &state.get_photo_directories().await?);
+    Ok(Html(render_template(
+        &state.tera,
+        "photos_home.html",
+        &mut context,
+    )?))
+}
+
+async fn photos_folder(
+    State(state): State<Arc<SharedState>>,
+    Path(folder): Path<String>,
+) -> Result<Response, AppError> {
+    let mut context = Context::new();
+    context.insert("active", "photos");
+    if !state.existing_directory(&folder).await? {
+        return Ok(StatusCode::NOT_FOUND.into_response());
+    }
+    context.insert("images", &state.get_photos(&folder).await?);
+    context.insert("photo_folder", &title_case(folder.replace("-", " ")));
+    Ok(Html(render_template(
+        &state.tera,
+        "photos_folder.html",
+        &mut context,
+    )?)
+    .into_response())
+}
+
 #[tokio::main]
 async fn main() -> Result<(), BuildError> {
-    let tera = Tera::new("templates/**/*.html")?;
-    let lastfm = Client::<String, String>::try_from_env("bobertoyin".to_string())
-        .map_err(|err| BuildError::EnvVar("LASTFM_API_KEY", err))?;
-    let lastfm_cache = Cache::<(), Option<Song>>::builder()
-        .time_to_live(Duration::from_secs(2))
-        .build();
-    let github = OctocrabBuilder::default().build()?;
-    let github_cache = Cache::<String, (Repository, Languages)>::builder()
-        .time_to_live(Duration::from_secs(3 * 60))
-        .build();
+    if let Ok(dev_env) = var("DEVELOPMENT") {
+        if dev_env == "TRUE" {
+            dotenv()?;
+        }
+    }
+    let state = SharedState::new(
+        "templates/**/*.html",
+        "bobertoyin",
+        "bobertoyin",
+        "https://nyc3.digitaloceanspaces.com",
+        Region::new("nyc3"),
+        "bobertoyin-photos",
+    )
+    .await?;
     let app = Router::new()
         .route("/", get(index))
         .route("/blog", get(blog))
@@ -399,13 +323,9 @@ async fn main() -> Result<(), BuildError> {
         .route("/projects", get(projects))
         .route("/changelog", get(changelog))
         .route("/currently_playing", get(currently_playing))
-        .with_state(Arc::new(SharedState {
-            tera,
-            lastfm,
-            lastfm_cache,
-            github,
-            github_cache,
-        }))
+        .route("/photos", get(photos_home))
+        .route("/photos/:folder", get(photos_folder))
+        .with_state(Arc::new(state))
         .nest_service("/static", ServeDir::new("static"));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;
     Ok(serve(listener, app).await?)
