@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Photos: {{ photo_folder }}{% endblock title %}
+
+{% block content %}
+<div class="content">
+    <p>
+        <span class="icon-text is-flex-wrap-nowrap">
+            <span class="icon"><i class="ph-bold ph-arrow-left"></i></span>
+            <span><a href="/photos" target="_self">Photos</a></span>
+        </span>
+    </p>
+    <h1>{{ photo_folder }}</h1>
+    <div class="fixed-grid has-3-cols">
+        <div class="grid is-gap-4">
+            {% for image in images %}
+                <div class="cell image-cell">
+                    <img src="https://bobertoyin-photos.nyc3.digitaloceanspaces.com/{{ image }}" />
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
