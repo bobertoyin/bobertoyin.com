@@ -6,6 +6,10 @@ title = "Change Log"
 
 ---
 
+## `v3.4.0`
+
+- Added `photos` page with subpages for each photo directory
+
 ## `v3.3.1`
 
 - Fixed issue with the song activity not loading a skeleton element for the text portion
