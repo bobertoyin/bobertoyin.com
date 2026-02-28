@@ -2,24 +2,25 @@ use std::{env::var, sync::Arc};
 
 use aws_config::Region;
 use axum::{
+    Router,
     extract::{Path, State},
     http::StatusCode,
     response::{Html, IntoResponse, Response},
     routing::get,
-    serve, Router,
+    serve,
 };
 use chrono::{NaiveDate, TimeDelta, Utc};
 use dotenv::dotenv;
 use futures_util::future::try_join_all;
-use gray_matter::{engine::TOML, Matter};
+use gray_matter::{Matter, engine::TOML};
 use markdown::{
-    message::Message, to_html_with_options, CompileOptions, Constructs, Options, ParseOptions,
+    CompileOptions, Constructs, Options, ParseOptions, message::Message, to_html_with_options,
 };
-use octocrab::models::{repos::Languages, Repository};
+use octocrab::models::{Repository, repos::Languages};
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
 use tokio::{
-    fs::{read_dir, File},
+    fs::{File, read_dir},
     io::AsyncReadExt,
     net::TcpListener,
     spawn,

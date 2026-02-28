@@ -1,16 +1,16 @@
 use std::collections::HashSet;
 
-use aws_config::{environment::EnvironmentVariableCredentialsProvider, from_env, Region};
+use aws_config::{Region, environment::EnvironmentVariableCredentialsProvider, from_env};
 use aws_sdk_s3::{Client as S3Client, Error as S3Error};
-use futures_util::{pin_mut, StreamExt};
+use futures_util::{StreamExt, pin_mut};
 use lastfm::{
-    track::{NowPlayingTrack, RecordedTrack},
     Client,
+    track::{NowPlayingTrack, RecordedTrack},
 };
 use moka::future::Cache;
 use octocrab::{
-    models::{repos::Languages, Repository},
     Octocrab, OctocrabBuilder,
+    models::{Repository, repos::Languages},
 };
 use serde::{Deserialize, Serialize};
 use tera::Tera;
