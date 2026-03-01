@@ -1,0 +1,23 @@
+query Hardcover($date: date!) {
+  me {
+    goals(where: {end_date: {_lte: $date}}) {
+      id
+      description
+      metric
+      progress
+      goal
+    }
+    user_books(where: {status_id: {_eq: 2}}, order_by: {first_started_reading_date: asc}) {
+      book {
+        title
+        slug
+        image {
+          url
+        }
+      }
+      user_book_reads {
+        progress
+      }
+    }
+  }
+}

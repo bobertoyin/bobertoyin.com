@@ -1,20 +1,33 @@
-FROM lukemathwalker/cargo-chef:latest-rust-latest AS chef
+FROM rust:latest as build
+
+# create a new empty shell project
+RUN USER=root cargo new --bin bobertoyindotcom
+WORKDIR /bobertoyindotcom
+
+# copy over your manifests
+COPY ./Cargo.lock ./Cargo.lock
+COPY ./Cargo.toml ./Cargo.toml
+
+# this build step will cache your dependencies
+RUN cargo build --release
+RUN rm src/*.rs
+
+# copy your source tree
+COPY ./src ./src
+
+# build for release
+RUN rm ./target/release/deps/bobertoyin*
+RUN cargo build --release
+
+# our final base
+FROM debian:stable-slim
 WORKDIR /site
 
-FROM chef AS planner
-COPY . .
-RUN cargo chef prepare --recipe-path recipe.json
-
-FROM chef AS builder
-COPY --from=planner /site/recipe.json recipe.json
-RUN cargo chef cook --release --recipe-path recipe.json
-COPY . .
-RUN cargo build --release --bin bobertoyindotcom
-
-FROM gcr.io/distroless/cc-debian12:latest AS runtime
-WORKDIR /site
+# copy the build artifact from the build stage
+COPY --from=build /bobertoyindotcom/target/release/bobertoyindotcom .
 COPY content ./content
 COPY static ./static
 COPY templates ./templates
-COPY --from=builder /site/target/release/bobertoyindotcom /usr/local/bin/bobertoyindotcom
-ENTRYPOINT ["/usr/local/bin/bobertoyindotcom"]
+
+# set the startup command to run your binary
+CMD ["./bobertoyindotcom"]

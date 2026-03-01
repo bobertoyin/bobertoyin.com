@@ -1,0 +1,81 @@
+<section>
+    <h4>Scrobbles</h4>
+    <blockquote>
+        <p>
+            <em>Scrobble</em>. To publish one's media consumption habits to the Internet via software, in order to track when and how often certain items are played.
+        </p>
+        <footer>
+            <cite><a href="https://en.wiktionary.org/wiki/scrobble">Wiktionary</a></cite>
+        </footer>
+    </blockquote>
+    <details open>
+        <summary><strong>Music</strong></summary>
+        <article>
+            {% if track %}
+                {% if track.image.large %}
+                    <img width="150" height="150" src="{{ track.image.large }}" alt="{{ track.name }} by {{ track.artist.name }}">
+                {% else %}
+                    <img src="https://placehold.co/150.png?text=Image\nMissing&font=Open Sans" alt="Placeholder image">
+                {% endif %}
+                <hgroup>
+                    <p><a href="{{ track.url }}">{{ track.name }}</a> by <a href="{{ track.artist.url }}">{{ track.artist.name }}</a></p>
+                    <p><small>{{ track_time }}</small></p>
+                </hgroup>
+            {% else %}
+                <em>Nothing to see here!</em>
+            {% endif %}
+            <footer>
+                <small>
+                    {% if music_success %}
+                        <span class="pico-color-green-500">successfully</span> fetched
+                    {% else %}
+                        <span class="pico-color-red-500">failed</span> to fetch
+                    {% endif %}
+                    via <a href="https://last.fm">Last.FM</a>
+                </small>
+            </footer>
+        </article>
+    </details>
+    <details>
+        <summary><strong>Books</strong></summary>
+        <article>
+            {% if books_and_goals %}
+                <section>
+                    {% for goal in books_and_goals.goals %}
+                        <hgroup>
+                            <p><a href="https://hardcover.app/@bobertoyin/goals/{{ goal.id }}">{{ goal.description }}</a></p>
+                            <p><small>{{ goal.progress }} / {{ goal.goal }} {{ goal.metric }}s</small></p>
+                        </hgroup>
+                        <progress value="{{ goal.progress }}" max="{{ goal.goal }}"></progress>
+                    {% endfor %}
+                </section>
+                <section>
+                    <div class="row">
+                        {% for book in books_and_goals.user_books %}
+                            {% set read = book.user_book_reads.0 %}
+                            <div class="col-xs-6 col-md-3">
+                                <div class="box">
+                                    <a href="https://hardcover.app/books/{{ book.book.slug }}"><img class="book-cover" src="{{ book.book.image.url }}"></a>
+                                    <p><small>{{ read.progress | round(method="floor",precision=2) }}% read</small></p>
+                                    <progress value="{{ read.progress }}" max="100"></progress>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% else %}
+                <em>Nothing to see here!</em>
+            {% endif %}
+            <footer>
+                <small>
+                    {% if book_success %}
+                        <span class="pico-color-green-500">successfully</span> fetched
+                    {% else %}
+                        <span class="pico-color-red-500">failed</span> to fetch
+                    {% endif %}
+                    via <a href="https://hardcover.app">Hardcover</a>
+                </small>
+            </footer>
+        </article>
+    </details>
+</section>

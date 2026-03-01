@@ -1,0 +1,19 @@
+<section>
+    <h3>Posts</h3>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <th scope="row">{{ post.date }}</th>
+                <td><a href="/blog/{{ post.slug }}">{{ post.title }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
