@@ -25,6 +25,7 @@ WORKDIR /site
 
 # copy the build artifact from the build stage
 COPY --from=build /bobertoyindotcom/target/release/bobertoyindotcom .
+RUN apt -y update && apt -y install ca-certificates
 COPY content ./content
 COPY static ./static
 COPY templates ./templates

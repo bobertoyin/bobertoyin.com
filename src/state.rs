@@ -1,19 +1,18 @@
-use std::{collections::HashMap, env::var};
+use std::env::var;
 
 use chrono::{Datelike, Utc};
 use futures_util::{StreamExt, pin_mut};
-use gql_client::Client as GQLClient;
 use lastfm::{
     Client,
     errors::Error as LastFMError,
     track::{NowPlayingTrack, RecordedTrack},
 };
 use moka::future::Cache;
-use serde::{Deserialize, Serialize};
 use tera::Tera;
-use tokio::{fs::File, io::AsyncReadExt, time::Duration};
+use tokio::time::Duration;
 
 use crate::error::{AppError, BuildError};
+use crate::graphql::{Client as GQLClient, Data, Me, Vars};
 
 const HARDCOVER_API_URL: &str = "https://api.hardcover.app/v1/graphql";
 
@@ -33,54 +32,6 @@ impl From<RecordedTrack> for Song {
     fn from(value: RecordedTrack) -> Self {
         Self::Previous(value)
     }
-}
-
-#[derive(Clone, Deserialize)]
-struct Data {
-    me: Vec<Me>,
-}
-
-#[derive(Clone, Deserialize, Serialize)]
-pub struct Me {
-    goals: Vec<Goal>,
-    user_books: Vec<UserBook>,
-}
-
-#[derive(Clone, Deserialize, Serialize)]
-struct Goal {
-    id: i32,
-    description: String,
-    metric: String,
-    progress: f64,
-    goal: i32,
-}
-
-#[derive(Clone, Deserialize, Serialize)]
-struct UserBook {
-    book: Book,
-    user_book_reads: Vec<UserBookRead>,
-}
-
-#[derive(Clone, Deserialize, Serialize)]
-struct Book {
-    title: String,
-    slug: String,
-    image: Image,
-}
-
-#[derive(Clone, Deserialize, Serialize)]
-struct Image {
-    url: String,
-}
-
-#[derive(Clone, Deserialize, Serialize)]
-struct UserBookRead {
-    progress: f64,
-}
-
-#[derive(Serialize)]
-struct Vars {
-    date: String,
 }
 
 /// Various structs and state that are shared across routes.
@@ -106,11 +57,8 @@ impl SharedState {
 
         let hardcover_auth_token = var("HARDCOVER_AUTH_TOKEN")
             .map_err(|err| BuildError::EnvVar("HARDCOVER_AUTH_TOKEN", err))?;
-        let hardcover_auth_token = format!("Bearer {}", hardcover_auth_token);
-        let mut hardcover_headers = HashMap::new();
-        hardcover_headers.insert("authorization", hardcover_auth_token);
 
-        let hardcover = GQLClient::new_with_headers(HARDCOVER_API_URL, hardcover_headers);
+        let hardcover = GQLClient::build(HARDCOVER_API_URL, hardcover_auth_token)?;
         let hardcover_cache = Cache::<(), Me>::builder()
             .time_to_live(Duration::from_mins(15))
             .build();
@@ -152,19 +100,14 @@ impl SharedState {
         }
     }
 
-    pub async fn get_books_and_goals(&self) -> Result<Option<Me>, AppError> {
+    pub async fn get_books_and_goals(&self) -> Result<Option<Me>, Vec<AppError>> {
         match self.hardcover_cache.get(&()).await {
             Some(me) => Ok(Some(me)),
             None => {
-                let mut query = String::new();
-                File::open("graphql/hardcover/query.graphql")
-                    .await?
-                    .read_to_string(&mut query)
-                    .await?;
                 let date = format!("{}-12-31", Utc::now().year());
                 match self
                     .hardcover
-                    .query_with_vars::<Data, Vars>(&query, Vars { date })
+                    .query::<Data>("graphql/hardcover/query.graphql", Vars { date })
                     .await?
                 {
                     None => Ok(None),

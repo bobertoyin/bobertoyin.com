@@ -2,6 +2,11 @@
 title = "Change Log"
 ---
 
+`v4.1.0`
+
+- Fix GraphQL client issue by writing custom client with TLS configuration
+- Move website version out of cargo and into source code to avoid invalidating docker build cache
+
 `v4.0.1`
 
 - Fixed dockerfile to pull in graphql directory

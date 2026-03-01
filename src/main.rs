@@ -24,10 +24,11 @@ use tower_http::services::ServeDir;
 
 mod error;
 use error::{AppError, BuildError};
+mod graphql;
 mod state;
 use state::{SharedState, Song};
 
-const VERSION: &str = env!("CARGO_PKG_VERSION");
+const VERSION: &str = "4.1.0";
 
 #[derive(Serialize, Deserialize)]
 struct ContentInfo {
@@ -129,6 +130,9 @@ async fn add_music_to_context(state: Arc<SharedState>, context: &mut Context) {
 }
 
 async fn add_books_to_context(state: Arc<SharedState>, context: &mut Context) {
+    if let Err(e) = state.get_books_and_goals().await {
+        println!("{:?}", e);
+    }
     if let Ok(data) = state.get_books_and_goals().await {
         context.insert("book_success", &true);
         if let Some(books_and_goals) = data {
