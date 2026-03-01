@@ -81,7 +81,10 @@ impl Client {
         auth_token_header.set_sensitive(true);
         let mut headers = HeaderMap::new();
         headers.append(AUTHORIZATION, auth_token_header);
-        let client = ReqClient::builder().use_native_tls().default_headers(headers).build()?;
+        let client = ReqClient::builder()
+            .use_native_tls()
+            .default_headers(headers)
+            .build()?;
         Ok(Self {
             client,
             url: url.into(),

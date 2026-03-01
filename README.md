@@ -9,9 +9,10 @@ The home of all my ~~terrible~~ awesome ideas.
 # meant for local development
 DEVELOPMENT="TRUE"
 
-# required for music listening information on the home page
+# required for music scrobbling
 LASTFM_API_KEY="<Last.fm API key>"
-# required for access to photos S3 bucket
-AWS_ACCESS_KEY_ID="<S3 Access Key ID>"
-AWS_SECRET_ACCESS_KEY="<S3 Secret Access Key>"
+# required for book scrobbling
+HARDCOVER_AUTH_TOKEN="<Hardcover Auth Bearer token>"
+# required for hosted assets
+ASSET_URL="<URL for service hosting assets>"
 ```

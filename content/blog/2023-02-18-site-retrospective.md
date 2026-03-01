@@ -22,12 +22,12 @@ I know that critiques typically start with what the body of work does well, but 
 
 To start, some of the visual design decisions are poorly executed and one-dimensional, regardless if they were intentional or not. Raleway, the font the site uses for all of the text, is noted as a good display font but [isn't as good for text](https://www.reddit.com/r/graphic_design/comments/2x9vme/comment/coyhhlc/?utm_source=share&utm_medium=web2x&context=3). The footer text is lazily placed in the bottom-right of the footer with no spacing around it, and says nothing more than "Designed By Robert Yin."
 
-![An Underwhelming Footer](/static/content/blog/2023_02_18_site_retro/footer.png)
+![An Underwhelming Footer]({{ asset_url }}/blog/2023_02_18_site_retro/footer.png)
 <small>What an underwhelming footer.</small>
 
 There were also some design choices that didn't seem to have any reasonable justification: why are some of the body headers unselectable by the cursor, and why is the rest of the text purple on no background color when selected? Was I intentionally prioritizing mediocre aesthetics over accessibility? Any why did I choose the color purple when it clearly doesn't mesh with the background image and is only ever reinforced by the logo in the header?
 
-![Poorly Designed Text Selection](/static/content/blog/2023_02_18_site_retro/text-selection.gif)
+![Poorly Designed Text Selection]({{ asset_url }}/blog/2023_02_18_site_retro/text-selection.gif)
 <small>Good luck trying to copy and paste any of my headers.</small>
 
 Lastly, some of the content on this site clearly has my tenth-grade name on it because it comes off as incredibly unhelpful and awkward to read. The synopsis, for example, was an extreme exaggeration of my relationship with food at the time and just wasn't appropriate to put on the Home page:
@@ -42,7 +42,7 @@ And as much as I love my siblings, this quote probably shouldn't have been on th
 
 Even the professional information came off weird: did I really need to format my JavaScript knowledge as "JavaScript (Rudimentary)" or to try and flex my "all expense paid trip to Silicon Valley?"
 
-![Poorly Written Skills Section](/static/content/blog/2023_02_18_site_retro/skills.png)
+![Poorly Written Skills Section]({{ asset_url }}/blog/2023_02_18_site_retro/skills.png)
 <small>There is a sweet, misguided charm to expressing my SQL knowledge as "SQL/phpMyAdmin."</small>
 
 There's so much more bad meat for me to sink my teeth into on this site, but I'm willing to call it a day for this portion of the critique and blame it all on "inexperience," even if it doesn't actually apply (I'm looking at you, navigation menu and image lightbox scripts that were blatanly copied from StackOverflow, W3Schools, or some other resource for novice web developers).
@@ -51,7 +51,7 @@ There's so much more bad meat for me to sink my teeth into on this site, but I'm
 
 Most of the nice things about this site revolve around being the "right idea," which is to say that despite the flaws there is good intent behind them all.
 
-![First Ever Logo](/static/content/blog/2023_02_18_site_retro/logo.svg)
+![First Ever Logo]({{ asset_url }}/blog/2023_02_18_site_retro/logo.svg)
 <small>There wasn't any real reason to use a lightning bolt and gears in this purple logo, but it looks pretty sick.</small>
 
 As I've progressed through college and experienced some of the corporate life that comes with software engineering, I've appreciated keeping non-technical and creative endeavors close to me. Past me seems to agree:
@@ -64,7 +64,7 @@ The mission statement is quite wholesome and makes me jealous of how hopeful I u
 
 Ultimately, there's a lot on this site that reminds me that software and the web hasn't always been bleak and marred by the messes of adult life: sometimes it can be fun and simple.
 
-![Golden Gate Bridge in San Francisco](/static/content/blog/2023_02_18_site_retro/goldengatebridge.png)
+![Golden Gate Bridge in San Francisco]({{ asset_url }}/blog/2023_02_18_site_retro/goldengatebridge.png)
 <small>Seeing this image of the Golden Gate Bridge always reminds me of how I got started with computer science in the first place.</small>
 
 ## Improvement in the CE (College Era)
@@ -75,7 +75,7 @@ This is where the journey back in time gets tricky. I had many iterations of sit
 
 The design and formatting of the site is more consistent and multi-dimensional: there's a color scheme that isn't too bad to look at, [Liquid](https://shopify.github.io/liquid) templating means that HTML elements are used more consistently, and there's a healthy usage of emojis wherever applicable!
 
-![Emojis with HTML Lists](/static/content/blog/2023_02_18_site_retro/emojis.png)
+![Emojis with HTML Lists]({{ asset_url }}/blog/2023_02_18_site_retro/emojis.png)
 <small>Maybe emojis aren't actually a critical design choice, but they sure are fun.</small>
 
 I also think this website still gives off a relatively youthful and spry energy that isn't too far off from the high school site, but is a little more reserved and mature.
@@ -86,7 +86,7 @@ One issue that this site has is the number of unnecessary pages in the navigatio
 
 This next issue is a bit of a nitpick, but the site doesn't handle responsiveness all that well. This could've easily been remedied by picking up a CSS framework that could automatically handle responsiveness. TLDR; don't let non-frontend developers write too much CSS by hand.
 
-![Not Perfect Responsiveness](/static/content/blog/2023_02_18_site_retro/imperfectresponsiveness.png)
+![Not Perfect Responsiveness]({{ asset_url }}/blog/2023_02_18_site_retro/imperfectresponsiveness.png)
 <small>Sure, it's not bad, but it's not great either.</small>
 
 Lastly, I don't love the idea of making the homepage a glorified copy of my resume, which is exactly what I did for this site. Although trying to showcase your work and abilities isn't a bad thing, it makes more sense to highlight content that can't fit on a resume (e.g., blog posts!).

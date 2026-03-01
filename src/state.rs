@@ -43,6 +43,7 @@ pub struct SharedState {
     pub lastfm_cache: Cache<(), Option<Song>>,
     pub hardcover: GQLClient,
     pub hardcover_cache: Cache<(), Me>,
+    pub asset_url: String,
 }
 
 impl SharedState {
@@ -63,12 +64,15 @@ impl SharedState {
             .time_to_live(Duration::from_mins(15))
             .build();
 
+        let asset_url = var("ASSET_URL").map_err(|err| BuildError::EnvVar("ASSET_URL", err))?;
+
         Ok(Self {
             tera,
             lastfm,
             lastfm_cache,
             hardcover,
             hardcover_cache,
+            asset_url,
         })
     }
 

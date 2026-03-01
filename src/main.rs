@@ -14,7 +14,7 @@ use markdown::{
     CompileOptions, Constructs, Options, ParseOptions, message::Message, to_html_with_options,
 };
 use serde::{Deserialize, Serialize};
-use tera::{Context, Tera};
+use tera::Context;
 use tokio::{
     fs::{File, read_dir},
     io::AsyncReadExt,
@@ -28,7 +28,7 @@ mod graphql;
 mod state;
 use state::{SharedState, Song};
 
-const VERSION: &str = "4.1.0";
+const VERSION: &str = "4.2.0";
 
 #[derive(Serialize, Deserialize)]
 struct ContentInfo {
@@ -66,9 +66,14 @@ fn parse_markdown(content: &str) -> Result<String, Message> {
     )
 }
 
-fn render_template(tera: &Tera, name: &str, context: &mut Context) -> Result<String, tera::Error> {
+fn render_template(
+    state: Arc<SharedState>,
+    name: &str,
+    context: &mut Context,
+) -> Result<String, tera::Error> {
     context.insert("version", VERSION);
-    tera.render(name, context)
+    context.insert("asset_url", &state.asset_url);
+    state.tera.render(name, context)
 }
 
 fn format_time_delta(delta: &TimeDelta) -> String {
@@ -100,11 +105,7 @@ async fn index(State(state): State<Arc<SharedState>>) -> Result<Html<String>, Ap
     add_books_to_context(state.clone(), &mut context).await;
     add_projects_to_context(&mut context).await?;
     add_posts_to_context(&mut context).await?;
-    Ok(Html(render_template(
-        &state.tera,
-        "index.html",
-        &mut context,
-    )?))
+    Ok(Html(render_template(state, "index.html", &mut context)?))
 }
 
 async fn add_music_to_context(state: Arc<SharedState>, context: &mut Context) {
@@ -177,11 +178,7 @@ async fn add_posts_to_context(context: &mut Context) -> Result<(), AppError> {
 
 async fn fallback(State(state): State<Arc<SharedState>>) -> Result<Html<String>, AppError> {
     let mut context = Context::new();
-    Ok(Html(render_template(
-        &state.tera,
-        "404.html",
-        &mut context,
-    )?))
+    Ok(Html(render_template(state, "404.html", &mut context)?))
 }
 
 async fn blog_post(
@@ -206,6 +203,7 @@ async fn render_markdown<S: AsRef<str> + ToString>(
         .await?
         .read_to_string(&mut content)
         .await?;
+    let content = content.replace("{{ asset_url }}", &state.asset_url);
     let frontmatter = Matter::<TOML>::new()
         .parse_with_struct::<ContentInfo>(&content)
         .ok_or(AppError::Frontmatter(file_path.to_string()))?
@@ -214,11 +212,7 @@ async fn render_markdown<S: AsRef<str> + ToString>(
     context.insert("content", &parse_markdown(&content)?);
     context.insert("date", &frontmatter.date);
     context.insert("custom_stylesheet", &custom_stylesheet);
-    Ok(Html(render_template(
-        &state.tera,
-        "markdown.html",
-        &mut context,
-    )?))
+    Ok(Html(render_template(state, "markdown.html", &mut context)?))
 }
 
 #[tokio::main]

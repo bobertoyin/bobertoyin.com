@@ -2,10 +2,15 @@
 title = "Change Log"
 ---
 
+`v4.2.0`
+
+- Moved to hosting images from a S3 bucket + CDN to fix lack of Git LFS in cloud provider :(
+- Fixed verb tenses in changelog entry for `v4.1.0`
+
 `v4.1.0`
 
-- Fix GraphQL client issue by writing custom client with TLS configuration
-- Move website version out of cargo and into source code to avoid invalidating docker build cache
+- Fixed GraphQL client issue by writing custom client with TLS configuration
+- Moved website version out of cargo and into source code to avoid invalidating docker build cache
 
 `v4.0.1`
 
