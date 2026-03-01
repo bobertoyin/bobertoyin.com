@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% include "index_partials/intro_card.html" %}
+{% include "index_partials/about.html" %}
+<hr>
+{% include "index_partials/scrobbles.html" %}
+<hr>
+{% include "index_partials/projects.html" %}
+<hr>
+{% include "index_partials/posts.html" %}
+{% endblock content %}

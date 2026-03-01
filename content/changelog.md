@@ -2,35 +2,43 @@
 title = "Change Log"
 ---
 
-# Change Log
+`v4.0.0`
 
----
+- Migrated CSS framework from Bulma to Pico
+- Overhauled home page content
+- Changed overall theme to be less "techy" (may or may not be biting Anthropic's style)
+- Changed primary typeface from Berekely Mono to Public Sans
+- Added book scrobbling
+- Fixed 404 page to properly display
+- Removed Phosphor icons
+- Removed client-side scripting
+- Removed Github API integration
 
-## `v3.4.0`
+`v3.4.0`
 
 - Added `photos` page with subpages for each photo directory
 
-## `v3.3.1`
+`v3.3.1`
 
 - Fixed issue with the song activity not loading a skeleton element for the text portion
 
-## `v3.3.0`
+`v3.3.0`
 
 - Added caching for the current/last song
 - Redesigned UI for the current/last song + general activity
 - Changed navbar items to use default bulma styling when active
 
-## `v3.2.3`
+`v3.2.3`
 
 - Removed old blog post file
 - Changed the default link behavior to open in a new tab
 - Made code-styled links the same color as regular links
 
-## `v3.2.2`
+`v3.2.2`
 
 - Fixed Docker build issues stemming from missing folder copying and incorrectly naming the built binary
 
-## `v3.2.1`
+`v3.2.1`
 
 - Improved Docker build times, build caching opportunities, and image size
   - Accomplished with [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) and [distroless images](https://github.com/GoogleContainerTools/distroless)
@@ -38,22 +46,22 @@ title = "Change Log"
 - Simplified and added new [`Error`](https://doc.rust-lang.org/std/error/index.html) types within the server code
 - Removed the requirement of a Github personal access token to run the site
 
-## `v3.2.0`
+`v3.2.0`
 
 - Added content to the `projects` page
 - Used CDN sources for [Phosphor Icons](https://phosphoricons.com) and [htmx](https://htmx.org)
 - Made footer stick to the bottom of the browser when page content is not scrollable
 
-## `v3.1.1`
+`v3.1.1`
 
 - Added missing `openssl-dev` package to `Dockerfile`
 
-## `v3.1.0`
+`v3.1.0`
 
 - Added currently/last listened to song via [Last.fm client](https://docs.rs/lastfm/latest/lastfm/index.html)
 - Added header divider to `changelog` page
 
-## `v3.0.0`
+`v3.0.0`
 
 - Migrated from a static site generator ([Zola](https://www.getzola.org)) to a web server framework ([Axum](https://crates.io/crates/axum) + [Tera](https://keats.github.io/tera))
 - Upgraded to [Bulma v1](https://bulma.io)

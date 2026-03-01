@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -8,78 +8,27 @@
     </title>
     <base target="_blank">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.sand.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
     <link rel="stylesheet" href="/static/styles/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/index.min.js"></script>
-    <script src="/static/js/navburger.js"></script>
-    <script src="/static/js/init-theme.js"></script>
-    <script src="/static/js/toggle-theme.js"></script>
-    <script src="/static/js/reset-track.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/htmx.min.js" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤠</text></svg>">
+    {% if custom_stylesheet %}
+        <link rel="stylesheet" href="/static/styles/{{ custom_stylesheet }}.css">
+    {% endif %}
 </head>
 
-<body class="has-navbar-fixed-top">
-    <header>
-        <nav class="navbar has-shadow is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <div class="navbar-item">
-                    <h1 class="is-size-4 has-text-weight-bold">
-                        <a href="/" target="_self" id="brand-link">://bobertoyin</a>
-                    </h1>
-                </div>
-                <a role="button" class="navbar-burger" data-target="nav-menu" aria-label="menu" aria-expanded="false">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div class="navbar-menu" id="nav-menu">
-                <div class="navbar-end">
-                    <button onclick="toggleTheme()" id="theme-toggle" class="navbar-item button">
-                        <span class="icon">
-                            <i id="theme-toggle-icon" class="ph-bold"></i>
-                        </span>
-                    </button>
-                    <a class="navbar-item {% if active and active == 'home' %}is-active{% endif %}" href="/" target="_self">
-                        home
-                    </a>
-                    <a class="navbar-item {% if active and active == 'projects' %}is-active{% endif %}" href="/projects" target="_self">
-                        projects
-                    </a>
-                    <a class="navbar-item {% if active and active == 'blog' %}is-active{% endif %}" href="/blog" target="_self">
-                        blog
-                    </a>
-                    <a class="navbar-item {% if active and active == 'photos' %}is-active{% endif %}" href="/photos" target="_self">
-                        photos
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <section id="main-content" class="section p-5 mb-5">
-        <div class="container">
-            {% block content %} {% endblock content %}
-        </div>
-    </section>
-
-    <footer class="footer py-6">
-        <div class="content has-text-centered">
+<body>
+    <main>
+        {% block content %}{% endblock content %}
+    </main>
+    <footer>
+        <section>
             <p>
-                Now with more nonsense!
                 <a href="https://github.com/bobertoyin/bobertoyin.com">Source code</a>
                 is licensed <a rel="license" href="https://choosealicense.com/licenses/mit/">MIT</a>.
+                Currently <code><a href="/changelog">v{{ version }}</a></code>.
             </p>
-            <a href="/changelog" target="_self"><code>v{{ version }}</code></a>
-        </div>
+        </section>
     </footer>
 </body>
-
-<script>hljs.highlightAll();</script>
-
-</html>

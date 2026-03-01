@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+<section>
+    <hgroup>
+        <h2>{{ title }}</h2>
+        {% if date %}
+            <h2>{{ date }}</h2>
+        {% endif %}
+    </hgroup>
+    <hr>
+    {{ content | safe }}
+</section>
+{% endblock content %}

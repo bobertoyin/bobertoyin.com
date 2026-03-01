@@ -1,0 +1,13 @@
+<section>
+    <h3>Projects</h3>
+    {% for project in projects %}
+        <details name="projects" {% if loop.first %}open{% endif %}>
+            <summary><strong>{{ project.display_name }}</strong></summary>
+            <article>
+                <img src="https://placehold.co/600x300.png?text=Image\nMissing&font=Open Sans" alt="Placeholder image">
+                <p>{{ project.description | safe }}</p>
+                <footer><small>View source code <a href="https://github.com/bobertoyin/{{ project.name }}">here</a>.</small></footer>
+            </article>
+        </details>
+    {% endfor %}
+</section>
