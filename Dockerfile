@@ -28,6 +28,7 @@ COPY --from=build /bobertoyindotcom/target/release/bobertoyindotcom .
 COPY content ./content
 COPY static ./static
 COPY templates ./templates
+COPY graphql ./graphql
 
 # set the startup command to run your binary
 CMD ["./bobertoyindotcom"]

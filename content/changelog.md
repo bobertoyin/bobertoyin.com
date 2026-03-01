@@ -2,6 +2,10 @@
 title = "Change Log"
 ---
 
+`v4.0.1`
+
+- Fixed dockerfile to pull in graphql directory
+
 `v4.0.0`
 
 - Migrated CSS framework from Bulma to Pico
